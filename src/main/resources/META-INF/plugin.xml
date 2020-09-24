@@ -1,0 +1,27 @@
+<idea-plugin>
+    <id>me.bytebeats.jsonmstr</id>
+    <name>Json Master</name>
+    <vendor email="happychinapc@gmail.com" url="https://github.com/bytebeats">bytebeats</vendor>
+    <version>1.0.0</version>
+    <idea-version since-build="173.0"/>
+
+    <description><![CDATA[
+    Tired of opening a browser to validating and formatting JSON?<br>
+    Annoyed of generating a Class of Java/Kotlin/Dart from JSON?<br>
+    Why don't you install Json Master and do the job inside the IDEA with offline support?<br>
+    Json Master is a lightweight plugin for validating and formatting JSON strings and generating a Class from a JSON strings.<br>
+    Try install it and spread the word :)<br>
+    ]]></description>
+
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
