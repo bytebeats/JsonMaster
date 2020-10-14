@@ -4,6 +4,7 @@ import com.intellij.openapi.Disposable
 import com.intellij.openapi.project.Project
 import com.intellij.ui.components.JBPanel
 import me.bytebeats.jsonmstr.intf.OnLastTabListener
+import me.bytebeats.jsonmstr.ui.form.ParserTabView
 import java.awt.BorderLayout
 import javax.swing.JComponent
 import javax.swing.JPanel
@@ -17,7 +18,7 @@ import javax.swing.JPanel
  * @Description TO-DO
  */
 
-class TabView(project: Project, disposable: Disposable) : JPanel(BorderLayout()), ITabView {
+class TabView(private val project: Project, private val disposable: Disposable) : JPanel(BorderLayout()), ITabView {
     private val mPanel by lazy { JBPanel<JBPanel<*>>(BorderLayout()) }
     private val mTabs by lazy {
         TabLayout(project, disposable).apply {
@@ -33,22 +34,39 @@ class TabView(project: Project, disposable: Disposable) : JPanel(BorderLayout())
         mPanel.add(this, BorderLayout.CENTER)
     }
 
+    private fun addTab(component: JComponent, tabLayout: ITabLayout) {
+        mTabs.addTab(component, generateTabName(tabLayout))
+    }
+
+    private fun generateTabName(tabLayout: ITabLayout): String {
+        val titles = mutableSetOf<String>()
+        for (i in 0 until tabLayout.getTabCount()) {
+            titles.add(tabLayout.getTitleAt(i))
+        }
+        val suggestedTitle = "Parser"
+        var newTabTitle = suggestedTitle
+        var i = 0
+        while (titles.contains(newTabTitle)) {
+            newTabTitle = "$newTabTitle (${++i})"
+        }
+        return newTabTitle
+    }
+
     override fun createTabSession() {
+        addTab(createParserTabView(), mTabs)
     }
 
     override fun closeCurrentTabSession() {
-        TODO("Not yet implemented")
+        mTabs.closeCurrentTab()
     }
 
-    override fun getTabCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getTabCount(): Int = mTabs.getTabCount()
 
-    override fun getComponent(): JComponent {
-        TODO("Not yet implemented")
-    }
+    override fun getComponent(): JComponent = mPanel
 
-    override fun newComponent(): JComponent {
-        TODO("Not yet implemented")
+    override fun newComponent(): JComponent = createParserTabView()
+
+    private fun createParserTabView(): JComponent{
+        return ParserTabView(project, disposable).component
     }
 }
