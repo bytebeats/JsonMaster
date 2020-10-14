@@ -22,14 +22,13 @@ import javax.swing.JComponent
 class TabLayout(private val project: Project, private val parent: Disposable) : ITabLayout {
     private val mTabs by lazy {
         JBEditorTabs(project, IdeFocusManager.getInstance(project), parent)
+            .apply {
+                addListener(createTabsListener())
+                isTabDraggingEnabled = true
+            }
     }
 
     private var mLastTabListener: OnLastTabListener? = null
-
-    init {
-        mTabs.addListener(createTabsListener())
-        mTabs.isTabDraggingEnabled = true
-    }
 
     override fun setOnLastTabListener(listener: OnLastTabListener): ITabLayout {
         mLastTabListener = listener
@@ -83,7 +82,7 @@ class TabLayout(private val project: Project, private val parent: Disposable) : 
         }
 
         override fun tabsMoved() {
-            Logger.i("On Tab selection changed")
+            Logger.i("On Tabs moved")
         }
     }
 }
