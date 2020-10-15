@@ -215,7 +215,7 @@ public class ParsedJsonView implements ComponentProvider {
 
     @NotNull
     @Override
-    public Component provide() {
+    public JComponent provide() {
         return mTabView.provide();
     }
 

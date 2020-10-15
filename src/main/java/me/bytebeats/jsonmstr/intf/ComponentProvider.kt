@@ -1,6 +1,6 @@
 package me.bytebeats.jsonmstr.intf
 
-import java.awt.Component
+import javax.swing.JComponent
 
 /**
  * @Author bytebeats
@@ -12,5 +12,5 @@ import java.awt.Component
  */
 
 interface ComponentProvider {
-    fun provide(): Component
+    fun provide(): JComponent
 }

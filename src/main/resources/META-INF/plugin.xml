@@ -3,7 +3,7 @@
     <name>Json Master</name>
     <vendor email="happychinapc@gmail.com" url="https://github.com/bytebeats">bytebeats</vendor>
     <version>1.0.0</version>
-    <idea-version since-build="173.0"/>
+    <idea-version since-build="173.0" />
 
     <description><![CDATA[
     Tired of opening a browser to validating and formatting JSON?<br>
@@ -19,9 +19,17 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+        <toolWindow id="Json Master" anchor="right"
+            factoryClass="me.bytebeats.jsonmstr.ui.JsonMasterToolWindowFactory" />
     </extensions>
 
     <actions>
         <!-- Add your actions here -->
     </actions>
+
+    <project-components>
+        <component>
+            <implementation-class>me.bytebeats.jsonmstr.ui.JsonMasterComponent</implementation-class>
+        </component>
+    </project-components>
 </idea-plugin>
