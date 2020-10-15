@@ -8,6 +8,9 @@ import com.intellij.openapi.editor.EditorSettings;
 import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.event.DocumentListener;
 import com.intellij.openapi.project.Project;
+import com.intellij.psi.PsiDocumentManager;
+import com.intellij.psi.PsiFile;
+import me.bytebeats.jsonmstr.intf.ComponentProvider;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -22,7 +25,7 @@ import java.awt.*;
  * @Description TO-DO
  */
 
-public class ParserTabView {
+public class ParserTabView implements ComponentProvider {
     private Project mProject;
     private Disposable mParent;
     private Editor mInputEditor;
@@ -48,7 +51,7 @@ public class ParserTabView {
         updateSplitPane();
         this.mParsedJsonView = new ParsedJsonView(mProject, this);
         this.v_tab_raw_input_panel.add(mInputEditor.getComponent(), BorderLayout.CENTER);
-        this.v_tab_parsed_panel.add(mParsedJsonView.getComponent(), BorderLayout.CENTER);
+        this.v_tab_parsed_panel.add(mParsedJsonView.provide(), BorderLayout.CENTER);
         this.v_tab_parse_btn.addActionListener(e -> parse());
         this.mInputEditor.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -75,7 +78,11 @@ public class ParserTabView {
 
     private Editor createEditor() {//todo: persist raw json text
         EditorFactory factory = EditorFactory.getInstance();
-        Document document = factory.createDocument("");
+        PsiFile file = null;
+
+        Document document = file == null
+                ? factory.createDocument("")
+                : PsiDocumentManager.getInstance(mProject).getDocument(file);
         Editor editor = factory.createEditor(document, mProject);
         EditorSettings settings = editor.getSettings();
         settings.setVirtualSpace(false);
@@ -106,7 +113,9 @@ public class ParserTabView {
         }
     }
 
-    public JComponent getComponent() {
+    @NotNull
+    @Override
+    public Component provide() {
         return v_tab_panel;
     }
 

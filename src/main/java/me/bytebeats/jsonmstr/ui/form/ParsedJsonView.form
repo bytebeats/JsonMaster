@@ -1,12 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="me.bytebeats.jsonmstr.ui.form.ParsedJsonView">
-  <grid id="27dc6" binding="parsed_panel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="parsed_panel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
     <properties/>
     <border type="none"/>
-    <children/>
+    <children>
+      <grid id="b3bb5" binding="parsed_type_panel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <toolTipText value="Actions"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="ba2f4" class="com.intellij.openapi.ui.SimpleToolWindowPanel" binding="parsed_tool_window_panel" custom-create="true">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+        </children>
+      </grid>
+      <grid id="d5950" binding="parsed_content_panel" layout-manager="CardLayout" hgap="0" vgap="0">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="94c9" binding="parsed_pretty_content_panel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <card name="Card1"/>
+            </constraints>
+            <properties/>
+            <border type="empty"/>
+            <children/>
+          </grid>
+          <grid id="c05b" binding="parsed_raw_content_panel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <card name="Raw"/>
+            </constraints>
+            <properties/>
+            <border type="empty"/>
+            <children/>
+          </grid>
+          <scrollpane id="44ac9" binding="parsed_tree_content_scroll_panel">
+            <constraints>
+              <card name="Tree"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="53ee1" class="javax.swing.JTree" binding="parsed_tree">
+                <constraints/>
+                <properties>
+                  <toolTipText value="Json Tree"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+        </children>
+      </grid>
+    </children>
   </grid>
 </form>
