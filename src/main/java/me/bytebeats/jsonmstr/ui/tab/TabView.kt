@@ -67,6 +67,6 @@ class TabView(private val project: Project, private val disposable: Disposable) 
     override fun newComponent(): JComponent = createParserTabView()
 
     private fun createParserTabView(): JComponent{
-        return ParserTabView(project, disposable).component
+        return ParserTabView(project, disposable).provide()
     }
 }

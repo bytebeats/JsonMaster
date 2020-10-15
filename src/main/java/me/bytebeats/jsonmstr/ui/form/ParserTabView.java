@@ -115,7 +115,7 @@ public class ParserTabView implements ComponentProvider {
 
     @NotNull
     @Override
-    public Component provide() {
+    public JComponent provide() {
         return v_tab_panel;
     }
 
