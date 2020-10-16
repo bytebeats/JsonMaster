@@ -57,17 +57,17 @@ public class ParsedJsonView implements ComponentProvider {
     private Project mProject;
     private ParserTabView mTabView;
     private JPanel parsed_panel;
-    private JPanel parsed_type_panel;
     private JPanel parsed_content_panel;
     private JPanel parsed_pretty_content_panel;
     private JPanel parsed_raw_content_panel;
     private JScrollPane parsed_tree_content_scroll_panel;
     private JTree parsed_tree;
-    private SimpleToolWindowPanel parsed_tool_window_panel;
+    private JPanel parsed_tool_bar_panel;
+    private SimpleToolWindowPanel parsed_tool_bar;
 
-    private CardLayout mPreviewCardLayout;
-    private Editor prettyEditor;
-    private Editor rawEditor;
+    private final CardLayout mPreviewCardLayout;
+    private final Editor prettyEditor;
+    private final Editor rawEditor;
 
     public ParsedJsonView(Project mProject, ParserTabView mTabView) {
         this.mProject = mProject;
@@ -95,7 +95,7 @@ public class ParsedJsonView implements ComponentProvider {
     }
 
     private void createToolPanel() {
-        parsed_tool_window_panel = new SimpleToolWindowPanel(true, true);
+        parsed_tool_bar = new SimpleToolWindowPanel(true, true);
         final ButtonGroup buttonGroup = new ButtonGroup();
         final AnAction[] actions = new AnAction[4];
         final ActionListener listener = e -> mPreviewCardLayout.show(parsed_content_panel, e.getActionCommand());
@@ -128,8 +128,8 @@ public class ParsedJsonView implements ComponentProvider {
         };
         ActionGroup group = new DefaultActionGroup(actions);
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLBAR, group, true);
-        parsed_tool_window_panel.setToolbar(toolbar.getComponent());
-        parsed_tool_window_panel.setContent(new JPanel(new BorderLayout()));
+        parsed_tool_bar.setToolbar(toolbar.getComponent());
+        parsed_tool_bar.setContent(new JPanel(new BorderLayout()));
     }
 
     private Editor createEditor() {
@@ -144,7 +144,7 @@ public class ParsedJsonView implements ComponentProvider {
         settings.setLineMarkerAreaShown(false);
         settings.setIndentGuidesShown(false);
         settings.setFoldingOutlineShown(true);
-        settings.setAdditionalColumnsCount(3);
+//        settings.setAdditionalColumnsCount(3);
         settings.setAdditionalLinesCount(3);
         settings.setLineNumbersShown(true);
         settings.setCaretRowShown(true);
@@ -217,6 +217,10 @@ public class ParsedJsonView implements ComponentProvider {
     @Override
     public JComponent provide() {
         return mTabView.provide();
+    }
+
+    public JComponent getContainer() {
+        return parsed_panel;
     }
 
     private void parsePretty(String raw) {

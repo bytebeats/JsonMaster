@@ -3,9 +3,11 @@ package me.bytebeats.jsonmstr.ui.action
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.Constraints
 import me.bytebeats.jsonmstr.log.Logger
 import me.bytebeats.jsonmstr.ui.tab.ITabView
 import me.bytebeats.jsonmstr.ui.tab.TabView
+import me.bytebeats.jsonmstr.util.Constants
 import org.jetbrains.debugger.getClassName
 
 /**
@@ -18,10 +20,10 @@ import org.jetbrains.debugger.getClassName
  */
 
 class CloseTabAction(private val tabView: ITabView) :
-        AnAction("Close Tab", "Close Selected Json Master Tab", AllIcons.General.Remove) {
+        AnAction(Constants.CLOSE_TAB, Constants.CLOSE_TAB_DESC, AllIcons.General.Remove) {
     override fun actionPerformed(event: AnActionEvent) {
         tabView.closeCurrentTabSession()
-        Logger.i("${javaClass.simpleName}:actionPerformed")
+        Logger.i("CloseTabAction:actionPerformed")
     }
 
     override fun update(e: AnActionEvent) {

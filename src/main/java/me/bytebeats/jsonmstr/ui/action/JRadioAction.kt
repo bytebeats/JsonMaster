@@ -29,7 +29,7 @@ class JRadioAction @JvmOverloads constructor(
     val actionCommand: String? = null,
     val buttonGroup: ButtonGroup? = null,
     val actionListener: ActionListener? = null,
-    val selected: Boolean = false
+    val selected: Boolean = true
 ) : AnAction(text), CustomComponentAction {
     override fun actionPerformed(e: AnActionEvent) {
 
@@ -62,8 +62,9 @@ class JRadioAction @JvmOverloads constructor(
         radioButton.toolTipText = presentation.description
         radioButton.mnemonic = presentation.mnemonic
         radioButton.displayedMnemonicIndex = presentation.displayedMnemonicIndex
-        radioButton.isSelected = presentation.getClientProperty("selected") == true
-        radioButton.isEnabled = presentation.isEnabled
+        radioButton.isSelected = true == presentation.getClientProperty("selected")
+//        radioButton.isEnabled = presentation.isEnabled
+        radioButton.isEnabled = true
         radioButton.isVisible = presentation.isVisible
         if (!actionCommand.isNullOrEmpty()) {
             radioButton.actionCommand = actionCommand

@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import me.bytebeats.jsonmstr.ui.JsonMasterWindow
 import me.bytebeats.jsonmstr.ui.tab.ITabView
+import me.bytebeats.jsonmstr.util.Constants
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 
@@ -17,19 +18,17 @@ import java.awt.event.WindowEvent
  * @Description TO-DO
  */
 
-class NewWindowAction(val tabView: ITabView) :
-        AnAction("Open in New Window", "Open in New Window", AllIcons.Actions.ChangeView) {
+class NewWindowAction(private val tabView: ITabView) :
+        AnAction(Constants.PARSE_IN_DIALOG, Constants.PARSE_IN_DIALOG, AllIcons.Actions.ChangeView) {
     private var count = 0//count of parser window
     override fun actionPerformed(event: AnActionEvent) {
-        if (tabView?.getComponent() != null) {
-            val parserWindow = JsonMasterWindow(tabView, "Json Master $count", count)
-            count += 1
-            parserWindow.windowAdapter = object : WindowAdapter() {
-                override fun windowClosing(e: WindowEvent?) {
-                    super.windowClosing(e)
-                    if (count > 0) {
-                        count -= 1
-                    }
+        val parserWindow = JsonMasterWindow(tabView, "Json Master $count", count)
+        count += 1
+        parserWindow.windowAdapter = object : WindowAdapter() {
+            override fun windowClosing(e: WindowEvent?) {
+                super.windowClosing(e)
+                if (count > 0) {
+                    count -= 1
                 }
             }
         }

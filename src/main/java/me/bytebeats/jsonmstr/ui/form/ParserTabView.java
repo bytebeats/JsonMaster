@@ -40,8 +40,6 @@ public class ParserTabView implements ComponentProvider {
 
     private SplitOrientation mOrientation;
 
-    private String mRawJsonText = "";
-
     public ParserTabView(Project project, Disposable disposable) {
         this.mProject = project;
         this.mParent = disposable;
@@ -51,7 +49,7 @@ public class ParserTabView implements ComponentProvider {
         updateSplitPane();
         this.mParsedJsonView = new ParsedJsonView(mProject, this);
         this.v_tab_raw_input_panel.add(mInputEditor.getComponent(), BorderLayout.CENTER);
-        this.v_tab_parsed_panel.add(mParsedJsonView.provide(), BorderLayout.CENTER);
+        this.v_tab_parsed_panel.add(mParsedJsonView.getContainer(), BorderLayout.CENTER);
         this.v_tab_parse_btn.addActionListener(e -> parse());
         this.mInputEditor.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -107,7 +105,7 @@ public class ParserTabView implements ComponentProvider {
 
     private void updateSplitPane() {
         if (v_tab_split_pane.getOrientation() == SplitOrientation.VERTICAL.value) {
-            v_tab_split_pane.setDividerLocation(132);
+            v_tab_split_pane.setDividerLocation(200);
         } else {
             v_tab_split_pane.setDividerLocation(300);
         }
@@ -121,11 +119,7 @@ public class ParserTabView implements ComponentProvider {
 
     private void parse() {
         String text = mInputEditor.getDocument().getText();
-        if (text.isEmpty() || mRawJsonText.equals(text)) {
-            return;
-        }
-        mRawJsonText = text;
-        mParsedJsonView.parse(mRawJsonText);
+        mParsedJsonView.parse(text);
     }
 
     public enum SplitOrientation {

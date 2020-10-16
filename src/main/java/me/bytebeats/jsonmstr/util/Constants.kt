@@ -12,5 +12,10 @@ package me.bytebeats.jsonmstr.util
 class Constants {
     companion object {
         const val PLUGIN_NAME = "Json Master"
+        const val PARSE_IN_DIALOG = "Open New Window"
+        const val ADD_TAB = "Add Tab"
+        const val ADD_TAB_DESC = "Create New Parser Tab"
+        const val CLOSE_TAB = "Close Tab"
+        const val CLOSE_TAB_DESC = "Close Selected Parser Tab"
     }
 }
