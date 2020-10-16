@@ -26,7 +26,7 @@ class TabView(private val project: Project, private val disposable: Disposable) 
                 override fun onLast() {
                 }
             })
-            add(getComponent(), BorderLayout.CENTER)
+            add(this.getComponent(), BorderLayout.CENTER)
         }
     }
 
