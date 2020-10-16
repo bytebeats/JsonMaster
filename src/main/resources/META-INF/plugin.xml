@@ -25,6 +25,11 @@
 
     <actions>
         <!-- Add your actions here -->
+        <action id="ParserActionId" text="Json Master" description="Parse in Json Master"
+            class="me.bytebeats.jsonmstr.ui.action.OpenJsonMasterAction">
+            <add-to-group group-id="EditMenu" anchor="last" />
+            <keyboard-shortcut first-keystroke="ctrl shift alt J" keymap="$default" second-keystroke="ctrl alt J" />
+        </action>
     </actions>
 
     <project-components>

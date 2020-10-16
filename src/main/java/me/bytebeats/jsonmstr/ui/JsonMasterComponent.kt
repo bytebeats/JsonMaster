@@ -17,6 +17,9 @@ import com.intellij.openapi.wm.ex.ToolWindowManagerListener
 import com.intellij.ui.content.Content
 import com.intellij.ui.content.ContentFactory
 import me.bytebeats.jsonmstr.log.Logger
+import me.bytebeats.jsonmstr.ui.action.AddTabAction
+import me.bytebeats.jsonmstr.ui.action.CloseTabAction
+import me.bytebeats.jsonmstr.ui.action.NewWindowAction
 import me.bytebeats.jsonmstr.ui.palette.JsonMasterToolWindowPanel
 import me.bytebeats.jsonmstr.ui.tab.ITabView
 import me.bytebeats.jsonmstr.ui.tab.TabView
@@ -33,7 +36,7 @@ import kotlin.test.todo
  * @Description TO-DO
  */
 
-class JsonMasterComponent(val project: Project) {
+class JsonMasterComponent(private val project: Project) {
     private var time = 0L
     private var isShown = false;
 
@@ -66,7 +69,9 @@ class JsonMasterComponent(val project: Project) {
     private fun createToolbar(tabView: ITabView): ActionToolbar {
         val group = DefaultActionGroup()
 
-        // TODO: 2020/10/15 add actions here
+        group.add(AddTabAction(tabView))
+        group.add(CloseTabAction(tabView))
+        group.add(NewWindowAction(tabView))
 
         val toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLBAR, group, false)
         toolbar.setOrientation(SwingConstants.VERTICAL)
