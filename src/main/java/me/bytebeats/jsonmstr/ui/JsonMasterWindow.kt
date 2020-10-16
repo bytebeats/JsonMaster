@@ -18,12 +18,12 @@ import javax.swing.JFrame
  * @Description TO-DO
  */
 
-class JsonMasterWindow(val tabView: ITabView, title: String, var count: Int) : JFrame() {
+class JsonMasterWindow(private val tabView: ITabView, title: String, private var count: Int) : JFrame() {
     var windowAdapter: WindowAdapter? = null
 
     init {
-        setupView()
         setTitle(title)
+        setupView()
     }
 
     private fun setupView() {

@@ -16,8 +16,7 @@ import me.bytebeats.jsonmstr.log.Logger
 
 class OpenJsonMasterAction : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
-        val editor = event.getData(PlatformDataKeys.EDITOR)
-        if (editor == null) return
+        val editor = event.getData(PlatformDataKeys.EDITOR) ?: return
         val model = editor.selectionModel
         val text = model.selectedText
         if (text.isNullOrEmpty()) {

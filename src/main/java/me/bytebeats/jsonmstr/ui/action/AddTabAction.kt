@@ -5,6 +5,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import me.bytebeats.jsonmstr.log.Logger
 import me.bytebeats.jsonmstr.ui.tab.ITabView
+import me.bytebeats.jsonmstr.util.Constants
 
 /**
  * @Author bytebeats
@@ -16,7 +17,7 @@ import me.bytebeats.jsonmstr.ui.tab.ITabView
  */
 
 class AddTabAction(private val tabView: ITabView) :
-        AnAction("Add Tab", "Create New Json Master Tab", AllIcons.General.Add) {
+        AnAction(Constants.ADD_TAB, Constants.ADD_TAB_DESC, AllIcons.General.Add) {
     override fun actionPerformed(event: AnActionEvent) {
         tabView.createTabSession()
         Logger.i("${javaClass.simpleName}:actionPerformed")
