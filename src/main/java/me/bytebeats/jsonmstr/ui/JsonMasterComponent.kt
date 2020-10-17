@@ -98,7 +98,7 @@ class JsonMasterComponent(private val project: Project) {
                                 Notification(
                                     PLUGIN_NAME,
                                     "Like it!",
-                                    "Love Json Master? <a href=https://www.paypal.me/bytesbeat>Donate</a> or <b>Give it a star</b>  <a href=https://plugins.jetbrains.com/plugin/10650-json-parser>Json Master</a> and spread the word!",
+                                    "Love Json Master? <a href=https://www.paypal.me/bytesbeat>Donate</a> or <b>Give it a star</b>  <a href=https://plugins.jetbrains.com/plugin/15218-json-master>Json Master</a> and spread the word!",
                                     NotificationType.INFORMATION,
                                     NotificationListener.UrlOpeningListener(true)
                                 )
