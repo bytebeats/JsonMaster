@@ -6,8 +6,6 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.Presentation
 import com.intellij.openapi.actionSystem.ex.CustomComponentAction
-import com.intellij.openapi.diagnostic.LogUtil
-import com.intellij.ui.components.JBRadioButton
 import com.intellij.util.ui.UIUtil
 import me.bytebeats.jsonmstr.log.Logger
 import java.awt.event.ActionListener

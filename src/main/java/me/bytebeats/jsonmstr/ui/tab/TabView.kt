@@ -3,7 +3,6 @@ package me.bytebeats.jsonmstr.ui.tab
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.project.Project
 import com.intellij.ui.components.JBPanel
-import me.bytebeats.jsonmstr.intf.OnLastTabListener
 import me.bytebeats.jsonmstr.ui.form.ParserTabView
 import java.awt.BorderLayout
 import javax.swing.JComponent
@@ -22,10 +21,6 @@ class TabView(private val project: Project, private val disposable: Disposable) 
     private val mPanel by lazy { JBPanel<JBPanel<*>>(BorderLayout()) }
     private val mTabs by lazy {
         TabLayout(project, disposable).apply {
-            setOnLastTabListener(object : OnLastTabListener {
-                override fun onLast() {
-                }
-            })
             add(this.getComponent(), BorderLayout.CENTER)
         }
     }
@@ -47,13 +42,13 @@ class TabView(private val project: Project, private val disposable: Disposable) 
         var newTabTitle = suggestedTitle
         var i = 0
         while (titles.contains(newTabTitle)) {
-            newTabTitle = "$newTabTitle (${++i})"
+            newTabTitle = "$suggestedTitle (${++i})"
         }
         return newTabTitle
     }
 
     override fun createTabSession() {
-        addTab(createParserTabView(), mTabs)
+        addTab(createParserTabView(ParserTabView.SplitOrientation.VERTICAL).provide(), mTabs)
     }
 
     override fun closeCurrentTabSession() {
@@ -64,9 +59,9 @@ class TabView(private val project: Project, private val disposable: Disposable) 
 
     override fun getComponent(): JComponent = mPanel
 
-    override fun newComponent(): JComponent = createParserTabView()
+    override fun newComponent(): JComponent = createParserTabView(ParserTabView.SplitOrientation.HORIZONTAL).provide()
 
-    private fun createParserTabView(): JComponent {
-        return ParserTabView(project, disposable).provide()
+    private fun createParserTabView(orientation: ParserTabView.SplitOrientation): ParserTabView {
+        return ParserTabView(project, disposable, orientation)
     }
 }

@@ -6,7 +6,6 @@ import com.intellij.openapi.wm.IdeFocusManager
 import com.intellij.ui.tabs.TabInfo
 import com.intellij.ui.tabs.TabsListener
 import com.intellij.ui.tabs.impl.JBEditorTabs
-import me.bytebeats.jsonmstr.intf.OnLastTabListener
 import me.bytebeats.jsonmstr.log.Logger
 import javax.swing.JComponent
 
@@ -26,13 +25,6 @@ class TabLayout(private val project: Project, private val parent: Disposable) : 
                 addListener(createTabsListener())
                 isTabDraggingEnabled = true
             }
-    }
-
-    private var mLastTabListener: OnLastTabListener? = null
-
-    override fun setOnLastTabListener(listener: OnLastTabListener): ITabLayout {
-        mLastTabListener = listener
-        return this
     }
 
     override fun addTab(component: JComponent, title: String): ITabLayout {
@@ -74,11 +66,7 @@ class TabLayout(private val project: Project, private val parent: Disposable) : 
         }
 
         override fun tabRemoved(tabToRemove: TabInfo) {
-            mLastTabListener?.apply {
-                if (getTabCount() == 1) {
-                    onLast()
-                }
-            }
+            Logger.i("On tabToRemove: ${tabToRemove?.text}")
         }
 
         override fun tabsMoved() {

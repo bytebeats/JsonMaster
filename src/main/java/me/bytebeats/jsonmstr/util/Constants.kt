@@ -17,5 +17,10 @@ class Constants {
         const val ADD_TAB_DESC = "Create New Parser Tab"
         const val CLOSE_TAB = "Close Tab"
         const val CLOSE_TAB_DESC = "Close Selected Parser Tab"
+        const val PRETTY = "Pretty"
+        const val RAW = "Raw"
+        const val TREE = "Tree"
+        const val USE_SOFT_WRAPS = "Use Soft Wraps"
+        const val USE_SOFT_WRAPS_DESC = "Toggle using soft wraps in current editor"
     }
 }

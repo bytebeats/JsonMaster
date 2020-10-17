@@ -17,7 +17,7 @@
         <children>
           <grid id="94c9" binding="parsed_pretty_content_panel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
-              <card name="Card1"/>
+              <card name="Pretty"/>
             </constraints>
             <properties/>
             <border type="empty"/>
