@@ -2,8 +2,6 @@ package me.bytebeats.jsonmstr.ui.tab
 
 import com.intellij.ui.tabs.TabInfo
 import com.intellij.ui.tabs.impl.JBEditorTabs
-import me.bytebeats.jsonmstr.intf.OnLastTabListener
-import java.awt.Component
 import javax.swing.JComponent
 
 /**
@@ -16,7 +14,6 @@ import javax.swing.JComponent
  */
 
 interface ITabLayout {
-    fun setOnLastTabListener(listener: OnLastTabListener): ITabLayout
     fun addTab(component: JComponent, title: String): ITabLayout
     fun getTabCount(): Int
     fun getTabAt(position: Int): TabInfo

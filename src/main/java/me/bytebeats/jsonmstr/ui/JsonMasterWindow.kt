@@ -18,28 +18,27 @@ import javax.swing.JFrame
  * @Description TO-DO
  */
 
-class JsonMasterWindow(private val tabView: ITabView, title: String, private var count: Int) : JFrame() {
+class JsonMasterWindow(private val tabView: ITabView, title: String, private val count: Int) : JFrame() {
     var windowAdapter: WindowAdapter? = null
 
     init {
-        setTitle(title)
         setupView()
+        setTitle(title)
     }
 
     private fun setupView() {
         val screenSize = Toolkit.getDefaultToolkit().screenSize
-        var width = screenSize.width / 3
-        var height = screenSize.height / 4
+        var width = screenSize.width * 2 / 5
+        var height = screenSize.height * 2 / 5
 
         if (width == 0) {
-            width = 400
+            width = 650
         }
         if (height == 0) {
-            height = 250
+            height = 400
         }
         preferredSize = Dimension(width, height)
-        add(tabView.newComponent().apply {
-        }, BorderLayout.CENTER)
+        add(tabView.newComponent(), BorderLayout.CENTER)
         size = Dimension(width, height)
 
         val x = screenSize.width / 2 - width / 2 + count * 20
@@ -48,7 +47,6 @@ class JsonMasterWindow(private val tabView: ITabView, title: String, private var
         setLocation(x, y)
         addWindowListener(object : WindowAdapter() {
             override fun windowClosing(e: WindowEvent?) {
-                super.windowClosing(e)
                 e?.window?.dispose()
                 windowAdapter?.windowClosing(e)
             }

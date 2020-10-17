@@ -25,7 +25,6 @@ import me.bytebeats.jsonmstr.ui.tab.ITabView
 import me.bytebeats.jsonmstr.ui.tab.TabView
 import me.bytebeats.jsonmstr.util.Constants.Companion.PLUGIN_NAME
 import javax.swing.SwingConstants
-import kotlin.test.todo
 
 /**
  * @Author bytebeats
@@ -99,7 +98,7 @@ class JsonMasterComponent(private val project: Project) {
                                 Notification(
                                     PLUGIN_NAME,
                                     "Like it!",
-                                    "Love Json Master? <a href=https://paypal.me/godwinj>Donate</a> or <b>Give it a star</b>  <a href=https://plugins.jetbrains.com/plugin/10650-json-parser>Json Master</a> and spread the word!",
+                                    "Love Json Master? <a href=https://www.paypal.me/bytesbeat>Donate</a> or <b>Give it a star</b>  <a href=https://plugins.jetbrains.com/plugin/10650-json-parser>Json Master</a> and spread the word!",
                                     NotificationType.INFORMATION,
                                     NotificationListener.UrlOpeningListener(true)
                                 )

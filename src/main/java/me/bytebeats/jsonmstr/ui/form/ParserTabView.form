@@ -16,6 +16,7 @@
         </constraints>
         <properties>
           <dividerLocation value="200"/>
+          <dividerSize value="5"/>
           <orientation value="0"/>
         </properties>
         <border type="none"/>
@@ -25,7 +26,10 @@
             <constraints>
               <splitpane position="left"/>
             </constraints>
-            <properties/>
+            <properties>
+              <minimumSize width="-1" height="200"/>
+              <toolTipText value="Enter Json String"/>
+            </properties>
             <border type="none" title="Enter Json String"/>
             <children>
               <grid id="b96f0" binding="v_tab_raw_input_panel" layout-manager="CardLayout" hgap="0" vgap="0">
@@ -41,7 +45,9 @@
                   <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <horizontalAlignment value="0"/>
                   <text value="Parse"/>
+                  <toolTipText value="Parse"/>
                 </properties>
               </component>
             </children>

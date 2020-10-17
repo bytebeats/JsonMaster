@@ -30,6 +30,7 @@ import com.intellij.psi.tree.IElementType;
 import me.bytebeats.jsonmstr.intf.ComponentProvider;
 import me.bytebeats.jsonmstr.meta.LineData;
 import me.bytebeats.jsonmstr.ui.action.JRadioAction;
+import me.bytebeats.jsonmstr.util.Constants;
 import me.bytebeats.jsonmstr.util.GsonUtil;
 import me.bytebeats.jsonmstr.util.StringUtil;
 import me.bytebeats.jsonmstr.util.TreeModelFactory;
@@ -99,23 +100,23 @@ public class ParsedJsonView implements ComponentProvider {
         final ButtonGroup buttonGroup = new ButtonGroup();
         final AnAction[] actions = new AnAction[4];
         final ActionListener listener = e -> mPreviewCardLayout.show(parsed_content_panel, e.getActionCommand());
-        actions[0] = new JRadioAction("Pretty", "Pretty", buttonGroup, listener, true);
-        actions[1] = new JRadioAction("Raw", "Raw", buttonGroup, listener);
+        actions[0] = new JRadioAction(Constants.PRETTY, Constants.PRETTY, buttonGroup, listener, true);
+        actions[1] = new JRadioAction(Constants.RAW, Constants.RAW, buttonGroup, listener);
 //        actions[1] = new JRadioAction("Compact", "Compact", buttonGroup, listener);
 //        actions[1] = new JRadioAction("Xml", "Xml", buttonGroup, listener);
 //        actions[1] = new JRadioAction("Yaml", "Yaml", buttonGroup, listener);
-        actions[2] = new JRadioAction("Tree", "Tree", buttonGroup, listener);
-        actions[3] = new AnAction("Use Soft Wraps", "Toggle using soft wraps in current editor", AllIcons.Actions.ToggleSoftWrap) {
+        actions[2] = new JRadioAction(Constants.TREE, Constants.TREE, buttonGroup, listener);
+        actions[3] = new AnAction(Constants.USE_SOFT_WRAPS, Constants.USE_SOFT_WRAPS_DESC, AllIcons.Actions.ToggleSoftWrap) {
             @Override
             public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
                 EventQueue.invokeLater(() -> {
                     try {
                         if (buttonGroup.getSelection() != null) {
                             String actionCommand = buttonGroup.getSelection().getActionCommand();
-                            if ("Pretty".equals(actionCommand)) {
+                            if (Constants.PRETTY.equals(actionCommand)) {
                                 EditorSettings settings = prettyEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
-                            } else if ("Raw".equals(actionCommand)) {
+                            } else if (Constants.RAW.equals(actionCommand)) {
                                 EditorSettings settings = rawEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
                             }
@@ -144,7 +145,7 @@ public class ParsedJsonView implements ComponentProvider {
         settings.setLineMarkerAreaShown(false);
         settings.setIndentGuidesShown(false);
         settings.setFoldingOutlineShown(true);
-//        settings.setAdditionalColumnsCount(3);
+        settings.setAdditionalColumnsCount(3);
         settings.setAdditionalLinesCount(3);
         settings.setLineNumbersShown(true);
         settings.setCaretRowShown(true);
@@ -264,7 +265,7 @@ public class ParsedJsonView implements ComponentProvider {
             document.setText(raw);
             document.setReadOnly(true);
         });
-        ((EditorEx) prettyEditor).setHighlighter(createHighlighter(getFileType(null)));
+        ((EditorEx) rawEditor).setHighlighter(createHighlighter(getFileType(null)));
     }
 
     private void parseTree(String raw) {
@@ -279,6 +280,7 @@ public class ParsedJsonView implements ComponentProvider {
             expandAllNodes(parsed_tree, 0, parsed_tree.getRowCount());
         } catch (Exception e) {
             e.printStackTrace();
+            resetTree();
         }
     }
 

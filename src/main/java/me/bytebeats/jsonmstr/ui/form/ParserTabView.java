@@ -40,11 +40,11 @@ public class ParserTabView implements ComponentProvider {
 
     private SplitOrientation mOrientation;
 
-    public ParserTabView(Project project, Disposable disposable) {
+    public ParserTabView(Project project, Disposable disposable, SplitOrientation orientation) {
         this.mProject = project;
         this.mParent = disposable;
         this.mInputEditor = createEditor();
-        mOrientation = SplitOrientation.VERTICAL;
+        mOrientation = orientation;
         v_tab_split_pane.setOrientation(mOrientation.value);
         updateSplitPane();
         this.mParsedJsonView = new ParsedJsonView(mProject, this);
