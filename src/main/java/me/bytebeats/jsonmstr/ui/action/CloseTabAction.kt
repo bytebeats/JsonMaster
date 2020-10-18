@@ -13,7 +13,7 @@ import me.bytebeats.jsonmstr.util.Constants
  * @Github https://github.com/bytebeats
  * @Created on 2020/10/16 11:50
  * @Version 1.0
- * @Description TO-DO
+ * @Description CloseTabAction is an Action to close selected tab view
  */
 
 class CloseTabAction(private val tabView: ITabView) :

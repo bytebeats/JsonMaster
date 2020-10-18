@@ -19,15 +19,15 @@ import javax.swing.JRadioButton
  * @Github https://github.com/bytebeats
  * @Created on 2020/10/15 16:21
  * @Version 1.0
- * @Description TO-DO
+ * @Description JRadioAction is JRadioButton with an Action
  */
 
-class JRadioAction @JvmOverloads constructor(
-    val text: String? = null,
-    val actionCommand: String? = null,
-    val buttonGroup: ButtonGroup? = null,
-    val actionListener: ActionListener? = null,
-    val selected: Boolean = true
+class JMRadioAction @JvmOverloads constructor(
+    text: String? = null,
+    private val actionCommand: String? = null,
+    private val buttonGroup: ButtonGroup? = null,
+    private val actionListener: ActionListener? = null,
+    private val selected: Boolean = true
 ) : AnAction(text), CustomComponentAction {
     override fun actionPerformed(e: AnActionEvent) {
 
@@ -39,9 +39,9 @@ class JRadioAction @JvmOverloads constructor(
             val btn = e.source as JRadioButton
             val actionToolbar = UIUtil.getParentOfType(ActionToolbar::class.java, btn)
             val dataContext = actionToolbar?.toolbarDataContext ?: DataManager.getInstance().getDataContext(btn)
-            this@JRadioAction.actionPerformed(
+            this@JMRadioAction.actionPerformed(
                 AnActionEvent.createFromAnAction(
-                    this@JRadioAction,
+                    this@JMRadioAction,
                     null,
                     "unknown",
                     dataContext
@@ -61,7 +61,6 @@ class JRadioAction @JvmOverloads constructor(
         radioButton.mnemonic = presentation.mnemonic
         radioButton.displayedMnemonicIndex = presentation.displayedMnemonicIndex
         radioButton.isSelected = true == presentation.getClientProperty("selected")
-//        radioButton.isEnabled = presentation.isEnabled
         radioButton.isEnabled = true
         radioButton.isVisible = presentation.isVisible
         if (!actionCommand.isNullOrEmpty()) {

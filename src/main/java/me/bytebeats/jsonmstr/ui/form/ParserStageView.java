@@ -29,7 +29,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import me.bytebeats.jsonmstr.intf.ComponentProvider;
 import me.bytebeats.jsonmstr.meta.LineData;
-import me.bytebeats.jsonmstr.ui.action.JRadioAction;
+import me.bytebeats.jsonmstr.ui.action.JMRadioAction;
 import me.bytebeats.jsonmstr.util.Constants;
 import me.bytebeats.jsonmstr.util.GsonUtil;
 import me.bytebeats.jsonmstr.util.StringUtil;
@@ -54,9 +54,9 @@ import java.awt.event.ActionListener;
  * @Description TO-DO
  */
 
-public class ParsedJsonView implements ComponentProvider {
+public class ParserStageView implements ComponentProvider {
     private Project mProject;
-    private ParserTabView mTabView;
+    private ComponentProvider mProvider;
     private JPanel parsed_panel;
     private JPanel parsed_content_panel;
     private JPanel parsed_pretty_content_panel;
@@ -70,9 +70,9 @@ public class ParsedJsonView implements ComponentProvider {
     private final Editor prettyEditor;
     private final Editor rawEditor;
 
-    public ParsedJsonView(Project mProject, ParserTabView mTabView) {
+    public ParserStageView(Project mProject, ComponentProvider provider) {
         this.mProject = mProject;
-        this.mTabView = mTabView;
+        this.mProvider = provider;
 
         this.mPreviewCardLayout = (CardLayout) parsed_content_panel.getLayout();
         prettyEditor = createEditor();
@@ -100,12 +100,12 @@ public class ParsedJsonView implements ComponentProvider {
         final ButtonGroup buttonGroup = new ButtonGroup();
         final AnAction[] actions = new AnAction[4];
         final ActionListener listener = e -> mPreviewCardLayout.show(parsed_content_panel, e.getActionCommand());
-        actions[0] = new JRadioAction(Constants.PRETTY, Constants.PRETTY, buttonGroup, listener, true);
-        actions[1] = new JRadioAction(Constants.RAW, Constants.RAW, buttonGroup, listener);
+        actions[0] = new JMRadioAction(Constants.PRETTY, Constants.PRETTY, buttonGroup, listener, true);
+        actions[1] = new JMRadioAction(Constants.RAW, Constants.RAW, buttonGroup, listener);
 //        actions[1] = new JRadioAction("Compact", "Compact", buttonGroup, listener);
 //        actions[1] = new JRadioAction("Xml", "Xml", buttonGroup, listener);
 //        actions[1] = new JRadioAction("Yaml", "Yaml", buttonGroup, listener);
-        actions[2] = new JRadioAction(Constants.TREE, Constants.TREE, buttonGroup, listener);
+        actions[2] = new JMRadioAction(Constants.TREE, Constants.TREE, buttonGroup, listener);
         actions[3] = new AnAction(Constants.USE_SOFT_WRAPS, Constants.USE_SOFT_WRAPS_DESC, AllIcons.Actions.ToggleSoftWrap) {
             @Override
             public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
@@ -217,7 +217,7 @@ public class ParsedJsonView implements ComponentProvider {
     @NotNull
     @Override
     public JComponent provide() {
-        return mTabView.provide();
+        return mProvider.provide();
     }
 
     public JComponent getContainer() {

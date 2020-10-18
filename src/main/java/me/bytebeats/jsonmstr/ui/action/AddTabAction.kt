@@ -13,14 +13,14 @@ import me.bytebeats.jsonmstr.util.Constants
  * @Github https://github.com/bytebeats
  * @Created on 2020/10/16 11:41
  * @Version 1.0
- * @Description TO-DO
+ * @Description AddTabAction is an Action to add a ParserTabView into the window of Json Master Plugin
  */
 
 class AddTabAction(private val tabView: ITabView) :
         AnAction(Constants.ADD_TAB, Constants.ADD_TAB_DESC, AllIcons.General.Add) {
     override fun actionPerformed(event: AnActionEvent) {
         tabView.createTabSession()
-        Logger.i("${javaClass.simpleName}:actionPerformed")
+        Logger.i("AddTabAction:actionPerformed")
     }
 
     override fun update(e: AnActionEvent) {

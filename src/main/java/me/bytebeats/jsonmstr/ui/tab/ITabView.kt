@@ -16,5 +16,6 @@ interface ITabView {
     fun closeCurrentTabSession()
     fun getTabCount(): Int
     fun getComponent(): JComponent
-    fun newComponent(): JComponent
+    fun newVerticalParserComponent(): JComponent
+    fun newHorizontalParserComponent(): JComponent
 }

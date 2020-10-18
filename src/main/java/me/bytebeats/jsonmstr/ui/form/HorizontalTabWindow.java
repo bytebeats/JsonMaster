@@ -22,10 +22,10 @@ import java.awt.*;
  * @Github https://github.com/bytebeats
  * @Created on 2020/10/14 16:13
  * @Version 1.0
- * @Description TO-DO
+ * @Description VerticalTabWindow to parse json string into json/raw/tree style vertically
  */
 
-public class ParserTabView implements ComponentProvider {
+public class HorizontalTabWindow implements ComponentProvider {
     private Project mProject;
     private Disposable mParent;
     private Editor mInputEditor;
@@ -36,20 +36,15 @@ public class ParserTabView implements ComponentProvider {
     private JPanel v_tab_parsed_panel;
     private JPanel v_tab_raw_input_panel;
     private JButton v_tab_parse_btn;
-    private ParsedJsonView mParsedJsonView;
+    private ParserStageView mParserStageView;
 
-    private SplitOrientation mOrientation;
-
-    public ParserTabView(Project project, Disposable disposable, SplitOrientation orientation) {
+    public HorizontalTabWindow(Project project, Disposable disposable) {
         this.mProject = project;
         this.mParent = disposable;
         this.mInputEditor = createEditor();
-        mOrientation = orientation;
-        v_tab_split_pane.setOrientation(mOrientation.value);
-        updateSplitPane();
-        this.mParsedJsonView = new ParsedJsonView(mProject, this);
+        this.mParserStageView = new ParserStageView(mProject, this);
         this.v_tab_raw_input_panel.add(mInputEditor.getComponent(), BorderLayout.CENTER);
-        this.v_tab_parsed_panel.add(mParsedJsonView.getContainer(), BorderLayout.CENTER);
+        this.v_tab_parsed_panel.add(mParserStageView.getContainer(), BorderLayout.CENTER);
         this.v_tab_parse_btn.addActionListener(e -> parse());
         this.mInputEditor.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -95,22 +90,6 @@ public class ParserTabView implements ComponentProvider {
         return editor;
     }
 
-    public void setOrientation(SplitOrientation orientation) {
-        if (mOrientation != orientation) {
-            mOrientation = orientation;
-            v_tab_split_pane.setOrientation(mOrientation.value);
-            updateSplitPane();
-        }
-    }
-
-    private void updateSplitPane() {
-        if (v_tab_split_pane.getOrientation() == SplitOrientation.VERTICAL.value) {
-            v_tab_split_pane.setDividerLocation(200);
-        } else {
-            v_tab_split_pane.setDividerLocation(300);
-        }
-    }
-
     @NotNull
     @Override
     public JComponent provide() {
@@ -119,15 +98,6 @@ public class ParserTabView implements ComponentProvider {
 
     private void parse() {
         String text = mInputEditor.getDocument().getText();
-        mParsedJsonView.parse(text);
-    }
-
-    public enum SplitOrientation {
-        VERTICAL(0), HORIZONTAL(1);
-        private final int value;
-
-        SplitOrientation(int value) {
-            this.value = value;
-        }
+        mParserStageView.parse(text);
     }
 }

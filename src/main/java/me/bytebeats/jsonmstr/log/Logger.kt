@@ -6,7 +6,7 @@ package me.bytebeats.jsonmstr.log
  * @Github https://github.com/bytebeats
  * @Created on 2020/9/24 17:32
  * @Version 1.0
- * @Description TO-DO
+ * @Description Logger show logs in Console
  */
 
 class Logger {
