@@ -58,19 +58,19 @@ class TabLayout(private val project: Project, private val parent: Disposable) : 
 
     private fun createTabsListener(): TabsListener = object : TabsListener {
         override fun selectionChanged(oldSelection: TabInfo?, newSelection: TabInfo?) {
-            Logger.i("On Tab selection change: ${oldSelection?.text} to ${newSelection?.text}")
+            Logger.i("On Tab selection changed: ${oldSelection?.text} to ${newSelection?.text}")
         }
 
         override fun beforeSelectionChanged(oldSelection: TabInfo?, newSelection: TabInfo?) {
-            Logger.i("On before Tab selection change: ${oldSelection?.text} to ${newSelection?.text}")
+            Logger.i("On before Tab selection changed: ${oldSelection?.text} to ${newSelection?.text}")
         }
 
         override fun tabRemoved(tabToRemove: TabInfo) {
-            Logger.i("On tabToRemove: ${tabToRemove?.text}")
+            Logger.i("On tabRemoved: ${tabToRemove.text}")
         }
 
         override fun tabsMoved() {
-            Logger.i("On Tabs moved")
+            Logger.i("On tabsMoved")
         }
     }
 }

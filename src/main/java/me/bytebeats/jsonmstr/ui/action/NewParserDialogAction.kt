@@ -3,7 +3,8 @@ package me.bytebeats.jsonmstr.ui.action
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import me.bytebeats.jsonmstr.ui.JsonMasterWindow
+import me.bytebeats.jsonmstr.log.Logger
+import me.bytebeats.jsonmstr.ui.ParserDialog
 import me.bytebeats.jsonmstr.ui.tab.ITabView
 import me.bytebeats.jsonmstr.util.Constants
 import java.awt.event.WindowAdapter
@@ -18,11 +19,12 @@ import java.awt.event.WindowEvent
  * @Description TO-DO
  */
 
-class NewWindowAction(private val tabView: ITabView) :
+class NewParserDialogAction(private val tabView: ITabView) :
         AnAction(Constants.PARSE_IN_DIALOG, Constants.PARSE_IN_DIALOG, AllIcons.Actions.ChangeView) {
     private var count = 0//count of parser window
     override fun actionPerformed(event: AnActionEvent) {
-        val parserWindow = JsonMasterWindow(tabView, "Json Master $count", count)
+        Logger.i("NewWindowAction:actionPerformed")
+        val parserWindow = ParserDialog(tabView, "Json Master $count", count)
         count += 1
         parserWindow.windowAdapter = object : WindowAdapter() {
             override fun windowClosing(e: WindowEvent?) {

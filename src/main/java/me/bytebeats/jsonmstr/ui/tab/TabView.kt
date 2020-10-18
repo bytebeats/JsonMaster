@@ -3,7 +3,8 @@ package me.bytebeats.jsonmstr.ui.tab
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.project.Project
 import com.intellij.ui.components.JBPanel
-import me.bytebeats.jsonmstr.ui.form.ParserTabView
+import me.bytebeats.jsonmstr.ui.form.HorizontalTabWindow
+import me.bytebeats.jsonmstr.ui.form.VerticalTabWindow
 import java.awt.BorderLayout
 import javax.swing.JComponent
 import javax.swing.JPanel
@@ -14,7 +15,7 @@ import javax.swing.JPanel
  * @Github https://github.com/bytebeats
  * @Created on 2020/10/13 20:55
  * @Version 1.0
- * @Description TO-DO
+ * @Description TabView manages all Parser tab views
  */
 
 class TabView(private val project: Project, private val disposable: Disposable) : JPanel(BorderLayout()), ITabView {
@@ -48,7 +49,7 @@ class TabView(private val project: Project, private val disposable: Disposable) 
     }
 
     override fun createTabSession() {
-        addTab(createParserTabView(ParserTabView.SplitOrientation.VERTICAL).provide(), mTabs)
+        addTab(newVerticalParserComponent(), mTabs)
     }
 
     override fun closeCurrentTabSession() {
@@ -59,9 +60,7 @@ class TabView(private val project: Project, private val disposable: Disposable) 
 
     override fun getComponent(): JComponent = mPanel
 
-    override fun newComponent(): JComponent = createParserTabView(ParserTabView.SplitOrientation.HORIZONTAL).provide()
+    override fun newVerticalParserComponent(): JComponent = VerticalTabWindow(project, disposable).provide()
 
-    private fun createParserTabView(orientation: ParserTabView.SplitOrientation): ParserTabView {
-        return ParserTabView(project, disposable, orientation)
-    }
+    override fun newHorizontalParserComponent(): JComponent = HorizontalTabWindow(project, disposable).provide()
 }

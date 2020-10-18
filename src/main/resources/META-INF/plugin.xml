@@ -21,12 +21,12 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
         <toolWindow id="Json Master" anchor="right"
-            factoryClass="me.bytebeats.jsonmstr.ui.JsonMasterToolWindowFactory" />
+            factoryClass="me.bytebeats.jsonmstr.ui.JsonMasterWindowFactory" />
     </extensions>
 
     <actions>
         <!-- Add your actions here -->
-        <action id="ParserActionId" text="Json Master" description="Parse in Json Master"
+        <action id="JsonMasterActionId" text="Json Master" description="Parse in Json Master"
             class="me.bytebeats.jsonmstr.ui.action.OpenJsonMasterAction">
             <add-to-group group-id="EditMenu" anchor="last" />
             <keyboard-shortcut first-keystroke="ctrl shift alt J" keymap="$default" second-keystroke="ctrl alt J" />
@@ -35,7 +35,7 @@
 
     <project-components>
         <component>
-            <implementation-class>me.bytebeats.jsonmstr.ui.JsonMasterComponent</implementation-class>
+            <implementation-class>me.bytebeats.jsonmstr.ui.JsonMasterWindow</implementation-class>
         </component>
     </project-components>
 </idea-plugin>

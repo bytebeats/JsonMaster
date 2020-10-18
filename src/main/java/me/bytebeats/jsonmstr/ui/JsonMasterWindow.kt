@@ -1,60 +1,118 @@
 package me.bytebeats.jsonmstr.ui
 
+import com.intellij.ide.util.PropertiesComponent
+import com.intellij.notification.Notification
+import com.intellij.notification.NotificationListener
+import com.intellij.notification.NotificationType
+import com.intellij.notification.Notifications
+import com.intellij.openapi.actionSystem.ActionManager
+import com.intellij.openapi.actionSystem.ActionPlaces
+import com.intellij.openapi.actionSystem.ActionToolbar
+import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.wm.ToolWindow
+import com.intellij.openapi.wm.ToolWindowManager
+import com.intellij.openapi.wm.ex.ToolWindowManagerEx
+import com.intellij.openapi.wm.ex.ToolWindowManagerListener
+import com.intellij.ui.content.Content
+import com.intellij.ui.content.ContentFactory
+import me.bytebeats.jsonmstr.log.Logger
+import me.bytebeats.jsonmstr.ui.action.AddTabAction
+import me.bytebeats.jsonmstr.ui.action.CloseTabAction
+import me.bytebeats.jsonmstr.ui.action.NewParserDialogAction
+import me.bytebeats.jsonmstr.ui.palette.ParserToolbarPanel
 import me.bytebeats.jsonmstr.ui.tab.ITabView
-import java.awt.BorderLayout
-import java.awt.Dimension
-import java.awt.EventQueue
-import java.awt.Toolkit
-import java.awt.event.WindowAdapter
-import java.awt.event.WindowEvent
-import javax.swing.JFrame
+import me.bytebeats.jsonmstr.ui.tab.TabView
+import me.bytebeats.jsonmstr.util.Constants.Companion.PLUGIN_NAME
+import javax.swing.SwingConstants
 
 /**
  * @Author bytebeats
  * @Email <happychinapc@gmail.com>
  * @Github https://github.com/bytebeats
- * @Created on 2020/10/16 15:23
+ * @Created on 2020/10/15 20:40
  * @Version 1.0
- * @Description TO-DO
+ * @Description JsonMasterComponent
  */
 
-class JsonMasterWindow(private val tabView: ITabView, title: String, private val count: Int) : JFrame() {
-    var windowAdapter: WindowAdapter? = null
+class JsonMasterWindow(private val project: Project) {
+    private var time = 0L
+    private var isShown = false;
 
-    init {
-        setupView()
-        setTitle(title)
+    fun addContentTo(toolWindow: ToolWindow) {
+        val content = createContentPanel(toolWindow)
+        content.isCloseable = true
+        toolWindow.contentManager.addContent(content)
+        ((ToolWindowManager.getInstance(project)) as ToolWindowManagerEx).addToolWindowManagerListener(
+            createToolWindowListener()
+        )
     }
 
-    private fun setupView() {
-        val screenSize = Toolkit.getDefaultToolkit().screenSize
-        var width = screenSize.width * 2 / 5
-        var height = screenSize.height * 2 / 5
+    private fun createContentPanel(toolWindow: ToolWindow): Content {
+        toolWindow.setToHideOnEmptyContent(true)
+        val panel = ParserToolbarPanel(PropertiesComponent.getInstance(project), toolWindow)
+        val content = ContentFactory.SERVICE.getInstance().createContent(panel, "", false)
+        val tabView = createTabContent(content)
+        val toolbar = createToolbar(tabView)
+        panel.toolbar = toolbar.component
+        panel.setContent(tabView.getComponent())
+        return content
+    }
 
-        if (width == 0) {
-            width = 650
-        }
-        if (height == 0) {
-            height = 400
-        }
-        preferredSize = Dimension(width, height)
-        add(tabView.newComponent(), BorderLayout.CENTER)
-        size = Dimension(width, height)
+    private fun createTabContent(content: Content): ITabView {
+        val tabView = TabView(project, content)
+        tabView.createTabSession()
+        return tabView
+    }
 
-        val x = screenSize.width / 2 - width / 2 + count * 20
-        val y = screenSize.height / 2 - height / 2 + count * 20
+    private fun createToolbar(tabView: ITabView): ActionToolbar {
+        val group = DefaultActionGroup()
 
-        setLocation(x, y)
-        addWindowListener(object : WindowAdapter() {
-            override fun windowClosing(e: WindowEvent?) {
-                e?.window?.dispose()
-                windowAdapter?.windowClosing(e)
+        group.add(AddTabAction(tabView))
+        group.add(CloseTabAction(tabView))
+        group.add(NewParserDialogAction(tabView))
+
+        val toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLBAR, group, false)
+        toolbar.setOrientation(SwingConstants.VERTICAL)
+        return toolbar
+    }
+
+    private fun createToolWindowListener(): ToolWindowManagerListener {
+        return object : ToolWindowManagerListener {
+            override fun toolWindowsRegistered(ids: MutableList<String>) {
+                super.toolWindowsRegistered(ids)
+                Logger.i(ids.toString())
             }
-        })
-        EventQueue.invokeLater {
-            isVisible = true
-            toFront()
-            repaint()
+
+            override fun stateChanged(toolWindowManager: ToolWindowManager) {
+                super.stateChanged(toolWindowManager)
+                val toolWindow = toolWindowManager.getToolWindow(PLUGIN_NAME)
+                toolWindow?.apply {
+                    if (isVisible && contentManager.contentCount == 0) {
+                        addContentTo(this)
+                    } else if (!isVisible) {
+                        if (!isShown && (time <= 0 || System.currentTimeMillis() - 3_600_000L > time)) {
+                            isShown = true
+                            time = System.currentTimeMillis()
+                            Notifications.Bus.notify(
+                                Notification(
+                                    PLUGIN_NAME,
+                                    "Like it!",
+                                    "Love Json Master? <a href=https://www.paypal.me/bytesbeat>Donate</a> or <b>Give it a star</b>  <a href=https://plugins.jetbrains.com/plugin/15218-json-master>Json Master</a> and spread the word!",
+                                    NotificationType.INFORMATION,
+                                    NotificationListener.UrlOpeningListener(true)
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    companion object {
+        fun newInstance(project: Project): JsonMasterWindow {
+            return project.getComponent(JsonMasterWindow::class.java)
         }
     }
 }

@@ -10,12 +10,12 @@ import com.intellij.openapi.wm.ToolWindowFactory
  * @Github https://github.com/bytebeats
  * @Created on 2020/10/15 21:35
  * @Version 1.0
- * @Description TO-DO
+ * @Description JsonMasterWindow is the json master window displayed on right side of Intellij IDEA and is the entry of Json Master Plugin
  */
 
-class JsonMasterToolWindowFactory : ToolWindowFactory {
+class JsonMasterWindowFactory : ToolWindowFactory {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        val component = JsonMasterComponent.newInstance(project)
-        component.initJsonMaster(toolWindow)
+        val component = JsonMasterWindow.newInstance(project)
+        component.addContentTo(toolWindow)
     }
 }

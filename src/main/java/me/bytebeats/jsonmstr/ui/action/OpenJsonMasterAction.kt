@@ -11,7 +11,7 @@ import me.bytebeats.jsonmstr.log.Logger
  * @Github https://github.com/bytebeats
  * @Created on 2020/10/16 15:57
  * @Version 1.0
- * @Description TO-DO
+ * @Description OpenJsonMasterAction is Action to popup Json Master Plugin
  */
 
 class OpenJsonMasterAction : AnAction() {

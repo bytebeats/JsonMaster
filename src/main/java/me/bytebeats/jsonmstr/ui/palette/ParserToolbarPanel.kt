@@ -10,10 +10,10 @@ import com.intellij.openapi.wm.ToolWindow
  * @Github https://github.com/bytebeats
  * @Created on 2020/10/15 20:36
  * @Version 1.0
- * @Description TO-DO
+ * @Description ParserToolbarPanel
  */
 
-class JsonMasterToolWindowPanel(
-    val propertiesComponent: PropertiesComponent,
+class ParserToolbarPanel(
+    val properties: PropertiesComponent,
     val toolWindow: ToolWindow
 ) : SimpleToolWindowPanel(false, true)
