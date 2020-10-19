@@ -57,29 +57,29 @@ import java.awt.event.ActionListener;
 public class ParserStageView implements ComponentProvider {
     private Project mProject;
     private ComponentProvider mProvider;
-    private JPanel parsed_panel;
-    private JPanel parsed_content_panel;
-    private JPanel parsed_pretty_content_panel;
-    private JPanel parsed_raw_content_panel;
-    private JScrollPane parsed_tree_content_scroll_panel;
-    private JTree parsed_tree;
-    private JPanel parsed_tool_bar_panel;
-    private SimpleToolWindowPanel parsed_tool_bar;
+    private JPanel stage_panel;
+    private JPanel stage_content_panel;
+    private JPanel stage_pretty_panel;
+    private JPanel stage_compact_panel;
+    private JScrollPane stage_tree_scroll_panel;
+    private JTree stage_tree;
+    private JPanel stage_tool_bar_panel;
+    private SimpleToolWindowPanel stage_tool_bar;
 
     private final CardLayout mPreviewCardLayout;
     private final Editor prettyEditor;
-    private final Editor rawEditor;
+    private final Editor compactEditor;
 
     public ParserStageView(Project mProject, ComponentProvider provider) {
         this.mProject = mProject;
         this.mProvider = provider;
 
-        this.mPreviewCardLayout = (CardLayout) parsed_content_panel.getLayout();
+        this.mPreviewCardLayout = (CardLayout) stage_content_panel.getLayout();
         prettyEditor = createEditor();
-        rawEditor = createEditor();
+        compactEditor = createEditor();
 
-        parsed_pretty_content_panel.add(prettyEditor.getComponent(), BorderLayout.CENTER);
-        parsed_raw_content_panel.add(rawEditor.getComponent(), BorderLayout.CENTER);
+        stage_pretty_panel.add(prettyEditor.getComponent(), BorderLayout.CENTER);
+        stage_compact_panel.add(compactEditor.getComponent(), BorderLayout.CENTER);
         updateTreeIcon();
         resetTree();
         createToolPanel();
@@ -91,17 +91,17 @@ public class ParserStageView implements ComponentProvider {
 
     public void parse(String rawJson) {
         parsePretty(rawJson);
-        parseRaw(rawJson);
+        parseCompact(rawJson);
         parseTree(rawJson);
     }
 
     private void createToolPanel() {
-        parsed_tool_bar = new SimpleToolWindowPanel(true, true);
+        stage_tool_bar = new SimpleToolWindowPanel(true, true);
         final ButtonGroup buttonGroup = new ButtonGroup();
         final AnAction[] actions = new AnAction[4];
-        final ActionListener listener = e -> mPreviewCardLayout.show(parsed_content_panel, e.getActionCommand());
+        final ActionListener listener = e -> mPreviewCardLayout.show(stage_content_panel, e.getActionCommand());
         actions[0] = new JMRadioAction(Constants.PRETTY, Constants.PRETTY, buttonGroup, listener, true);
-        actions[1] = new JMRadioAction(Constants.RAW, Constants.RAW, buttonGroup, listener);
+        actions[1] = new JMRadioAction(Constants.COMPACT, Constants.COMPACT, buttonGroup, listener);
 //        actions[1] = new JRadioAction("Compact", "Compact", buttonGroup, listener);
 //        actions[1] = new JRadioAction("Xml", "Xml", buttonGroup, listener);
 //        actions[1] = new JRadioAction("Yaml", "Yaml", buttonGroup, listener);
@@ -116,8 +116,8 @@ public class ParserStageView implements ComponentProvider {
                             if (Constants.PRETTY.equals(actionCommand)) {
                                 EditorSettings settings = prettyEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
-                            } else if (Constants.RAW.equals(actionCommand)) {
-                                EditorSettings settings = rawEditor.getSettings();
+                            } else if (Constants.COMPACT.equals(actionCommand)) {
+                                EditorSettings settings = compactEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
                             }
                         }
@@ -129,8 +129,8 @@ public class ParserStageView implements ComponentProvider {
         };
         ActionGroup group = new DefaultActionGroup(actions);
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLBAR, group, true);
-        parsed_tool_bar.setToolbar(toolbar.getComponent());
-        parsed_tool_bar.setContent(new JPanel(new BorderLayout()));
+        stage_tool_bar.setToolbar(toolbar.getComponent());
+        stage_tool_bar.setContent(new JPanel(new BorderLayout()));
     }
 
     private Editor createEditor() {
@@ -192,7 +192,7 @@ public class ParserStageView implements ComponentProvider {
     }
 
     private void updateTreeIcon() {
-        DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) parsed_tree.getCellRenderer();
+        DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) stage_tree.getCellRenderer();
         Icon icon = new ImageIcon();
         renderer.setClosedIcon(icon);
         renderer.setOpenIcon(icon);
@@ -202,7 +202,7 @@ public class ParserStageView implements ComponentProvider {
     private void resetTree() {
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("");
         DefaultTreeModel model = new DefaultTreeModel(root);
-        parsed_tree.setModel(model);
+        stage_tree.setModel(model);
     }
 
     private void expandAllNodes(JTree tree, int start, int rowCount) {
@@ -221,7 +221,7 @@ public class ParserStageView implements ComponentProvider {
     }
 
     public JComponent getContainer() {
-        return parsed_panel;
+        return stage_panel;
     }
 
     private void parsePretty(String raw) {
@@ -257,15 +257,16 @@ public class ParserStageView implements ComponentProvider {
         }
     }
 
-    private void parseRaw(String raw) {
+    private void parseCompact(String raw) {
         if (raw == null) return;
+        String compact = raw.replaceAll("\t|\r|\n|\\s*", "");
         WriteCommandAction.runWriteCommandAction(mProject, () -> {
-            Document document = rawEditor.getDocument();
+            Document document = compactEditor.getDocument();
             document.setReadOnly(false);
-            document.setText(raw);
+            document.setText(compact);
             document.setReadOnly(true);
         });
-        ((EditorEx) rawEditor).setHighlighter(createHighlighter(getFileType(null)));
+        ((EditorEx) compactEditor).setHighlighter(createHighlighter(getFileType(null)));
     }
 
     private void parseTree(String raw) {
@@ -276,8 +277,8 @@ public class ParserStageView implements ComponentProvider {
         try {
             String prettyJson = getPrettyJson(raw);
             DefaultTreeModel model = TreeModelFactory.INSTANCE.create(prettyJson);
-            parsed_tree.setModel(model);
-            expandAllNodes(parsed_tree, 0, parsed_tree.getRowCount());
+            stage_tree.setModel(model);
+            expandAllNodes(stage_tree, 0, stage_tree.getRowCount());
         } catch (Exception e) {
             e.printStackTrace();
             resetTree();
