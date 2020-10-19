@@ -14,6 +14,11 @@
     Try install it and spread the word :)<br>
     ]]></description>
 
+    <change-notes><![CDATA[
+      v1.0.0 release Json Master with features:<br> * tab window management; * dialog management; * multi style support for parsing json.<br>
+      v1.1.0 convert raw style into compact style.<br>
+    ]]></change-notes>
+
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
