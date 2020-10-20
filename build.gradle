@@ -42,6 +42,7 @@ compileTestKotlin {
 }
 patchPluginXml {
     changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+      v1.0.0 release Json Master with features:<br> * tab window management; * dialog management; * multi style support for parsing json.<br>
+      v1.1.0 convert raw style into compact style.<br>
+      """
 }
