@@ -22,5 +22,8 @@ class Constants {
         const val TREE = "Tree"
         const val USE_SOFT_WRAPS = "Use Soft Wraps"
         const val USE_SOFT_WRAPS_DESC = "Toggle using soft wraps in current editor"
+        const val XML = "XML"
+        const val YAML = "YAML"
+        const val CSV = "CSV"
     }
 }

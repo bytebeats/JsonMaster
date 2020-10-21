@@ -19,7 +19,9 @@
             <constraints>
               <card name="Pretty"/>
             </constraints>
-            <properties/>
+            <properties>
+              <toolTipText value="Pretty"/>
+            </properties>
             <border type="empty"/>
             <children/>
           </grid>
@@ -27,7 +29,9 @@
             <constraints>
               <card name="Compact"/>
             </constraints>
-            <properties/>
+            <properties>
+              <toolTipText value="Compact"/>
+            </properties>
             <border type="empty"/>
             <children/>
           </grid>
@@ -35,7 +39,9 @@
             <constraints>
               <card name="Tree"/>
             </constraints>
-            <properties/>
+            <properties>
+              <toolTipText value="Tree"/>
+            </properties>
             <border type="none"/>
             <children>
               <component id="53ee1" class="javax.swing.JTree" binding="stage_tree">
@@ -46,6 +52,36 @@
               </component>
             </children>
           </scrollpane>
+          <grid id="dd697" binding="stage_xml_panel" layout-manager="CardLayout" hgap="0" vgap="0">
+            <constraints>
+              <card name="XML"/>
+            </constraints>
+            <properties>
+              <toolTipText value="XML"/>
+            </properties>
+            <border type="empty"/>
+            <children/>
+          </grid>
+          <grid id="9b93d" binding="stage_csv_panel" layout-manager="CardLayout" hgap="0" vgap="0">
+            <constraints>
+              <card name="CSV"/>
+            </constraints>
+            <properties>
+              <toolTipText value="CSV"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="a1805" binding="stage_yaml_panel" layout-manager="CardLayout" hgap="0" vgap="0">
+            <constraints>
+              <card name="YAML"/>
+            </constraints>
+            <properties>
+              <toolTipText value="YAML"/>
+            </properties>
+            <border type="empty"/>
+            <children/>
+          </grid>
         </children>
       </grid>
       <grid id="5214c" binding="stage_tool_bar_panel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

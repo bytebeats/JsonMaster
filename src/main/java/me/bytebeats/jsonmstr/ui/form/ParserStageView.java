@@ -1,5 +1,13 @@
 package me.bytebeats.jsonmstr.ui.form;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvMappingException;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.google.gson.JsonSyntaxException;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.highlighter.HtmlFileHighlighter;
@@ -42,8 +50,11 @@ import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamWriter;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.StringWriter;
 
 /**
  * @Author bytebeats
@@ -65,10 +76,16 @@ public class ParserStageView implements ComponentProvider {
     private JTree stage_tree;
     private JPanel stage_tool_bar_panel;
     private SimpleToolWindowPanel stage_tool_bar;
+    private JPanel stage_xml_panel;
+    private JPanel stage_csv_panel;
+    private JPanel stage_yaml_panel;
 
     private final CardLayout mPreviewCardLayout;
     private final Editor prettyEditor;
     private final Editor compactEditor;
+    private final Editor xmlEditor;
+    private final Editor csvEditor;
+    private final Editor yamlEditor;
 
     public ParserStageView(Project mProject, ComponentProvider provider) {
         this.mProject = mProject;
@@ -77,9 +94,15 @@ public class ParserStageView implements ComponentProvider {
         this.mPreviewCardLayout = (CardLayout) stage_content_panel.getLayout();
         prettyEditor = createEditor();
         compactEditor = createEditor();
+        xmlEditor = createEditor();
+        csvEditor = createEditor();
+        yamlEditor = createEditor();
 
         stage_pretty_panel.add(prettyEditor.getComponent(), BorderLayout.CENTER);
         stage_compact_panel.add(compactEditor.getComponent(), BorderLayout.CENTER);
+        stage_xml_panel.add(xmlEditor.getComponent(), BorderLayout.CENTER);
+        stage_csv_panel.add(csvEditor.getComponent(), BorderLayout.CENTER);
+        stage_yaml_panel.add(yamlEditor.getComponent(), BorderLayout.CENTER);
         updateTreeIcon();
         resetTree();
         createToolPanel();
@@ -93,20 +116,23 @@ public class ParserStageView implements ComponentProvider {
         parsePretty(rawJson);
         parseCompact(rawJson);
         parseTree(rawJson);
+        parseXML(rawJson);
+        parseCSV(rawJson);
+        parseYAML(rawJson);
     }
 
     private void createToolPanel() {
         stage_tool_bar = new SimpleToolWindowPanel(true, true);
         final ButtonGroup buttonGroup = new ButtonGroup();
-        final AnAction[] actions = new AnAction[4];
+        final AnAction[] actions = new AnAction[7];
         final ActionListener listener = e -> mPreviewCardLayout.show(stage_content_panel, e.getActionCommand());
         actions[0] = new JMRadioAction(Constants.PRETTY, Constants.PRETTY, buttonGroup, listener, true);
         actions[1] = new JMRadioAction(Constants.COMPACT, Constants.COMPACT, buttonGroup, listener);
-//        actions[1] = new JRadioAction("Compact", "Compact", buttonGroup, listener);
-//        actions[1] = new JRadioAction("Xml", "Xml", buttonGroup, listener);
-//        actions[1] = new JRadioAction("Yaml", "Yaml", buttonGroup, listener);
         actions[2] = new JMRadioAction(Constants.TREE, Constants.TREE, buttonGroup, listener);
-        actions[3] = new AnAction(Constants.USE_SOFT_WRAPS, Constants.USE_SOFT_WRAPS_DESC, AllIcons.Actions.ToggleSoftWrap) {
+        actions[3] = new JMRadioAction(Constants.XML, Constants.XML, buttonGroup, listener);
+        actions[4] = new JMRadioAction(Constants.CSV, Constants.CSV, buttonGroup, listener);
+        actions[5] = new JMRadioAction(Constants.YAML, Constants.YAML, buttonGroup, listener);
+        actions[6] = new AnAction(Constants.USE_SOFT_WRAPS, Constants.USE_SOFT_WRAPS_DESC, AllIcons.Actions.ToggleSoftWrap) {
             @Override
             public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
                 EventQueue.invokeLater(() -> {
@@ -118,6 +144,15 @@ public class ParserStageView implements ComponentProvider {
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
                             } else if (Constants.COMPACT.equals(actionCommand)) {
                                 EditorSettings settings = compactEditor.getSettings();
+                                settings.setUseSoftWraps(!settings.isUseSoftWraps());
+                            } else if (Constants.XML.equals(actionCommand)) {
+                                EditorSettings settings = xmlEditor.getSettings();
+                                settings.setUseSoftWraps(!settings.isUseSoftWraps());
+                            } else if (Constants.CSV.equals(actionCommand)) {
+                                EditorSettings settings = csvEditor.getSettings();
+                                settings.setUseSoftWraps(!settings.isUseSoftWraps());
+                            } else if (Constants.YAML.equals(actionCommand)) {
+                                EditorSettings settings = yamlEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
                             }
                         }
@@ -259,7 +294,7 @@ public class ParserStageView implements ComponentProvider {
 
     private void parseCompact(String raw) {
         if (raw == null) return;
-        String compact = raw.replaceAll("\t|\r|\n|\\s*", "");
+        String compact = getCompactJson(raw);
         WriteCommandAction.runWriteCommandAction(mProject, () -> {
             Document document = compactEditor.getDocument();
             document.setReadOnly(false);
@@ -288,5 +323,68 @@ public class ParserStageView implements ComponentProvider {
     private String getPrettyJson(String raw) throws Exception {
         if (raw == null || raw.isEmpty()) return "";
         return GsonUtil.INSTANCE.toPrettyString(raw);
+    }
+
+    private String getCompactJson(String raw) {
+        if (raw == null || raw.isEmpty()) return "";
+        return raw.replaceAll("\t|\r|\n|\\s*", "");
+    }
+
+    private void parseXML(String raw) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
+            JacksonXmlModule module = new JacksonXmlModule();
+            module.setDefaultUseWrapper(xmlEditor.getSettings().isUseSoftWraps());
+            module.setXMLTextElementName("xml");
+            XmlMapper xmlMapper = new XmlMapper(module);
+            String jsonAsXml = xmlMapper.writer().withRootName("xml").withDefaultPrettyPrinter().writeValueAsString(jsonNode);
+
+            WriteCommandAction.runWriteCommandAction(mProject, () -> {
+                Document document = xmlEditor.getDocument();
+                document.setReadOnly(false);
+                document.setText(jsonAsXml);
+                document.setReadOnly(true);
+            });
+            ((EditorEx) xmlEditor).setHighlighter(createHighlighter(getFileType(null)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseYAML(String raw) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
+            YAMLMapper yamlMapper = new YAMLMapper();
+            String jsonAsYAML = yamlMapper.writer().withRootName("yaml").withDefaultPrettyPrinter().writeValueAsString(jsonNode);
+            WriteCommandAction.runWriteCommandAction(mProject, () -> {
+                Document document = yamlEditor.getDocument();
+                document.setReadOnly(false);
+                document.setText(jsonAsYAML);
+                document.setReadOnly(true);
+            });
+            ((EditorEx) yamlEditor).setHighlighter(createHighlighter(getFileType(null)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void parseCSV(String raw) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
+            CsvMapper csvMapper = new CsvMapper();
+            String jsonAsCSV = csvMapper.writer().withRootName("csv").withDefaultPrettyPrinter().writeValueAsString(jsonNode);
+            WriteCommandAction.runWriteCommandAction(mProject, () -> {
+                Document document = csvEditor.getDocument();
+                document.setReadOnly(false);
+                document.setText(jsonAsCSV);
+                document.setReadOnly(true);
+            });
+            ((EditorEx) csvEditor).setHighlighter(createHighlighter(getFileType(null)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
