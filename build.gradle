@@ -28,7 +28,6 @@ intellij {
     version '2020.2.1'
     pluginName 'Json Master'
     updateSinceUntilBuild false
-//    changeNotes false
 }
 
 sourceCompatibility = 1.8
@@ -40,6 +39,12 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+sourceSets {
+    main.kotlin.srcDirs += 'src/main/java'
+    main.java.srcDirs += 'src/main/java'
+}
+
 patchPluginXml {
     changeNotes """
       v1.0.0 release Json Master with features:<br> * tab window management; * dialog management; * multi style support for parsing json.<br>
