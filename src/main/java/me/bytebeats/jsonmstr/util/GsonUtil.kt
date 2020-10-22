@@ -4,11 +4,9 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 
 object GsonUtil {
-    @Throws(Exception::class)
+    @Throws(RuntimeException::class)
     fun toPrettyString(raw: String): String {
-        val gson = GsonBuilder().run {
-            setPrettyPrinting()
-        }.create()
+        val gson = GsonBuilder().setPrettyPrinting().create()
         val jsonElement = JsonParser.parseString(raw)
         return gson.toJson(jsonElement)
     }

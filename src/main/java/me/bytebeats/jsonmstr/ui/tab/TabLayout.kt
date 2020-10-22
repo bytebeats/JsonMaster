@@ -22,7 +22,7 @@ class TabLayout(private val project: Project, private val parent: Disposable) : 
     private val mTabs by lazy {
         JBEditorTabs(project, IdeFocusManager.getInstance(project), parent)
             .apply {
-                addListener(createTabsListener())
+                this.addListener(createTabsListener())
                 isTabDraggingEnabled = true
             }
     }
