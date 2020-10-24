@@ -32,7 +32,7 @@ import me.bytebeats.jsonmstr.meta.LineData;
 import me.bytebeats.jsonmstr.ui.action.JMRadioAction;
 import me.bytebeats.jsonmstr.util.Constants;
 import me.bytebeats.jsonmstr.util.GsonUtil;
-import me.bytebeats.jsonmstr.util.StringUtil;
+import me.bytebeats.jsonmstr.util.LineDataUtil;
 import me.bytebeats.jsonmstr.util.TreeModelFactory;
 import org.apache.commons.httpclient.Header;
 import org.apache.http.util.TextUtils;
@@ -236,19 +236,20 @@ public class ParserStageView implements ComponentProvider {
             ((EditorEx) prettyEditor).setHighlighter(createHighlighter(getFileType(null)));
         } catch (Exception e) {
             if (e instanceof JsonSyntaxException) {
+                System.out.println(e.getMessage());
                 String msg = e.getMessage();
-                if (TextUtils.isEmpty(msg) && e.getCause() != null && TextUtils.isEmpty(e.getCause().getMessage())) {
+                if (TextUtils.isEmpty(msg) && e.getCause() != null && !TextUtils.isEmpty(e.getCause().getMessage())) {
                     msg = e.getCause().getMessage();
                 }
                 String finalMsg = msg;
                 WriteCommandAction.runWriteCommandAction(mProject, () -> {
                     Document document = prettyEditor.getDocument();
                     document.setReadOnly(false);
-                    LineData lineData = StringUtil.INSTANCE.process(raw, finalMsg);
+                    LineData lineData = LineDataUtil.INSTANCE.process(finalMsg);
                     if (lineData == null) {
                         document.setText(raw);
                     } else {
-                        document.setText(raw + "\n\n\n" + "Error in line " + lineData.getNumber() + ":" + lineData.getOffset());
+                        document.setText(raw + "\n\n\n" + e.getClass().getSimpleName() + " in line " + lineData.getNumber() + ":" + lineData.getOffset());
                     }
                     document.setReadOnly(true);
                 });
