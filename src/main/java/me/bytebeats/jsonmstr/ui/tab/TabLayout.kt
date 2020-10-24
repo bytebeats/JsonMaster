@@ -1,6 +1,7 @@
 package me.bytebeats.jsonmstr.ui.tab
 
 import com.intellij.openapi.Disposable
+import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.IdeFocusManager
 import com.intellij.ui.tabs.TabInfo
@@ -20,7 +21,7 @@ import javax.swing.JComponent
 
 class TabLayout(private val project: Project, private val parent: Disposable) : ITabLayout {
     private val mTabs by lazy {
-        JBEditorTabs(project, IdeFocusManager.getInstance(project), parent)
+        JBEditorTabs(project, ActionManager.getInstance(), IdeFocusManager.getInstance(project), parent)
             .apply {
                 this.addListener(createTabsListener())
                 isTabDraggingEnabled = true
