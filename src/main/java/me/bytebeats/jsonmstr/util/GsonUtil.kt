@@ -7,7 +7,8 @@ object GsonUtil {
     @Throws(RuntimeException::class)
     fun toPrettyString(raw: String): String {
         val gson = GsonBuilder().setPrettyPrinting().create()
-        val jsonElement = JsonParser.parseString(raw)
+        val jsonElement = JsonParser().parse(raw)
+//        JsonParser.parseString(raw)
         return gson.toJson(jsonElement)
     }
 
