@@ -1,13 +1,8 @@
 package me.bytebeats.jsonmstr.ui.form;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.dataformat.csv.CsvGenerator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvMappingException;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
@@ -39,7 +34,6 @@ import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import me.bytebeats.jsonmstr.intf.ComponentProvider;
-import me.bytebeats.jsonmstr.log.LogUtil;
 import me.bytebeats.jsonmstr.meta.LineData;
 import me.bytebeats.jsonmstr.ui.action.JMRadioAction;
 import me.bytebeats.jsonmstr.util.Constants;
@@ -407,22 +401,23 @@ public class ParserStageView implements ComponentProvider {
     private void handleException(Editor editor, Exception e, String raw) {
         if (e instanceof JsonSyntaxException) {
             String msg = e.getMessage();
-            if (TextUtils.isEmpty(msg) && e.getCause() != null && TextUtils.isEmpty(e.getCause().getMessage())) {
+            if (TextUtils.isEmpty(msg) && e.getCause() != null && !TextUtils.isEmpty(e.getCause().getMessage())) {
                 msg = e.getCause().getMessage();
             }
             String finalMsg = msg;
             WriteCommandAction.runWriteCommandAction(mProject, () -> {
                 Document document = editor.getDocument();
                 document.setReadOnly(false);
-                LineData lineData = StringUtil.INSTANCE.process(raw, finalMsg);
+                LineData lineData = LineDataUtil.INSTANCE.process(finalMsg);
                 if (lineData == null) {
                     document.setText(raw);
                 } else {
-                    document.setText(raw + "\n\n\n" + "Error in line " + lineData.getNumber() + ":" + lineData.getOffset());
+                    document.setText(raw + "\n\n\n" + e.getClass().getSimpleName() + " in line " + lineData.getNumber() + ":" + lineData.getOffset());
                 }
                 document.setReadOnly(true);
             });
             ((EditorEx) editor).setHighlighter(createHighlighter(getFileType(null)));
         }
+
     }
 }
