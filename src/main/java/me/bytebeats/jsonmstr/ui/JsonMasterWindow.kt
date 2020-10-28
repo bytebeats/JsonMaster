@@ -16,7 +16,7 @@ import com.intellij.openapi.wm.ex.ToolWindowManagerEx
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
 import com.intellij.ui.content.Content
 import com.intellij.ui.content.ContentFactory
-import me.bytebeats.jsonmstr.log.Logger
+import me.bytebeats.jsonmstr.log.LogUtil
 import me.bytebeats.jsonmstr.ui.action.AddTabAction
 import me.bytebeats.jsonmstr.ui.action.CloseTabAction
 import me.bytebeats.jsonmstr.ui.action.NewParserDialogAction
@@ -81,7 +81,7 @@ class JsonMasterWindow(private val project: Project) {
         return object : ToolWindowManagerListener {
             override fun toolWindowsRegistered(ids: MutableList<String>) {
                 super.toolWindowsRegistered(ids)
-                Logger.i(ids.toString())
+                LogUtil.i(ids.toString())
             }
 
             override fun stateChanged(toolWindowManager: ToolWindowManager) {

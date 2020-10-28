@@ -6,7 +6,7 @@ import com.intellij.openapi.wm.IdeFocusManager
 import com.intellij.ui.tabs.TabInfo
 import com.intellij.ui.tabs.TabsListener
 import com.intellij.ui.tabs.impl.JBEditorTabs
-import me.bytebeats.jsonmstr.log.Logger
+import me.bytebeats.jsonmstr.log.LogUtil
 import javax.swing.JComponent
 
 /**
@@ -58,19 +58,19 @@ class TabLayout(private val project: Project, private val parent: Disposable) : 
 
     private fun createTabsListener(): TabsListener = object : TabsListener {
         override fun selectionChanged(oldSelection: TabInfo?, newSelection: TabInfo?) {
-            Logger.i("On Tab selection changed: ${oldSelection?.text} to ${newSelection?.text}")
+            LogUtil.i("On Tab selection changed: ${oldSelection?.text} to ${newSelection?.text}")
         }
 
         override fun beforeSelectionChanged(oldSelection: TabInfo?, newSelection: TabInfo?) {
-            Logger.i("On before Tab selection changed: ${oldSelection?.text} to ${newSelection?.text}")
+            LogUtil.i("On before Tab selection changed: ${oldSelection?.text} to ${newSelection?.text}")
         }
 
         override fun tabRemoved(tabToRemove: TabInfo) {
-            Logger.i("On tabRemoved: ${tabToRemove.text}")
+            LogUtil.i("On tabRemoved: ${tabToRemove.text}")
         }
 
         override fun tabsMoved() {
-            Logger.i("On tabsMoved")
+            LogUtil.i("On tabsMoved")
         }
     }
 }

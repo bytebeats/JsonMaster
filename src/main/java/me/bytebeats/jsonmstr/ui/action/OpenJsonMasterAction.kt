@@ -3,7 +3,7 @@ package me.bytebeats.jsonmstr.ui.action
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
-import me.bytebeats.jsonmstr.log.Logger
+import me.bytebeats.jsonmstr.log.LogUtil
 
 /**
  * @Author bytebeats
@@ -20,9 +20,9 @@ class OpenJsonMasterAction : AnAction() {
         val model = editor.selectionModel
         val text = model.selectedText
         if (text.isNullOrEmpty()) {
-            Logger.i("text is null or empty")
+            LogUtil.i("text is null or empty")
             return
         }
-        Logger.i("text is: $text")
+        LogUtil.i("text is: $text")
     }
 }

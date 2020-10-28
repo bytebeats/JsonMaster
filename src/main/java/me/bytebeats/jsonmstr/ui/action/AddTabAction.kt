@@ -3,7 +3,7 @@ package me.bytebeats.jsonmstr.ui.action
 import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import me.bytebeats.jsonmstr.log.Logger
+import me.bytebeats.jsonmstr.log.LogUtil
 import me.bytebeats.jsonmstr.ui.tab.ITabView
 import me.bytebeats.jsonmstr.util.Constants
 
@@ -20,7 +20,7 @@ class AddTabAction(private val tabView: ITabView) :
         AnAction(Constants.ADD_TAB, Constants.ADD_TAB_DESC, AllIcons.General.Add) {
     override fun actionPerformed(event: AnActionEvent) {
         tabView.createTabSession()
-        Logger.i("AddTabAction:actionPerformed")
+        LogUtil.i("AddTabAction:actionPerformed")
     }
 
     override fun update(e: AnActionEvent) {
