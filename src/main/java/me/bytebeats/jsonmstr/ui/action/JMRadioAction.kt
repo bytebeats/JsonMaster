@@ -7,7 +7,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.Presentation
 import com.intellij.openapi.actionSystem.ex.CustomComponentAction
 import com.intellij.util.ui.UIUtil
-import me.bytebeats.jsonmstr.log.Logger
+import me.bytebeats.jsonmstr.log.LogUtil
 import java.awt.event.ActionListener
 import javax.swing.ButtonGroup
 import javax.swing.JComponent
@@ -47,7 +47,7 @@ class JMRadioAction @JvmOverloads constructor(
                     dataContext
                 )
             )
-            Logger.i("JRadioAction.createCustomComponent")
+            LogUtil.i("JRadioAction.createCustomComponent")
             actionListener?.actionPerformed(e)
         }
         presentation.putClientProperty("selected", selected)

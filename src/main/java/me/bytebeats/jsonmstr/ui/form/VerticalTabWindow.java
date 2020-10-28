@@ -88,6 +88,9 @@ public class VerticalTabWindow implements ComponentProvider {
 
     private void parse() {
         String text = mInputEditor.getDocument().getText();
+        if (text.isEmpty()) {
+            return;
+        }
         mParserStageView.parse(text);
     }
 }

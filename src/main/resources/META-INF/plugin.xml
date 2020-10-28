@@ -2,7 +2,7 @@
     <id>me.bytebeats.jsonmstr</id>
     <name>Json Master</name>
     <vendor email="happychinapc@gmail.com" url="https://github.com/bytebeats">bytebeats</vendor>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <idea-version since-build="173.0" />
 
     <description><![CDATA[
@@ -17,6 +17,7 @@
     <change-notes><![CDATA[
       v1.0.0 release Json Master with features:<br> * tab window management; * dialog management; * multi style support for parsing json.<br>
       v1.1.0 convert raw style into compact style.<br>
+      v1.2.0 added xml/csv/yaml support.<br>
     ]]></change-notes>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html

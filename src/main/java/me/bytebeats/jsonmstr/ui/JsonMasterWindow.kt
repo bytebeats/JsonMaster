@@ -11,14 +11,11 @@ import com.intellij.openapi.actionSystem.ActionToolbar
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
-import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.openapi.wm.ex.ToolWindowManagerEx
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
 import com.intellij.ui.content.Content
 import com.intellij.ui.content.ContentFactory
-import com.intellij.ui.content.ContentManagerEvent
-import com.intellij.ui.content.ContentManagerListener
-import me.bytebeats.jsonmstr.log.Logger
+import me.bytebeats.jsonmstr.log.LogUtil
 import me.bytebeats.jsonmstr.ui.action.AddTabAction
 import me.bytebeats.jsonmstr.ui.action.CloseTabAction
 import me.bytebeats.jsonmstr.ui.action.NewParserDialogAction
@@ -83,7 +80,7 @@ class JsonMasterWindow(private val project: Project) {
         return object : ToolWindowManagerListener {
 
             override fun toolWindowRegistered(id: String) {
-                Logger.i("toolWindowRegistered: $id")
+                LogUtil.i("toolWindowRegistered: $id")
             }
 
             override fun stateChanged() {

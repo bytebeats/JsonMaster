@@ -8,7 +8,7 @@ apply plugin: "kotlin"
 apply plugin: "org.jetbrains.intellij"
 
 group 'me.bytebeats'
-version '1.1.0'
+version '1.2.0'
 
 repositories {
     maven { url 'https://maven.aliyun.com/repository/google' }
@@ -21,6 +21,12 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation "com.fasterxml.jackson.core:jackson-annotations:2.11.3"
+    implementation "com.fasterxml.jackson.core:jackson-core:2.11.3"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.11.3"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.3"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.11.3"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.3"
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
@@ -49,5 +55,6 @@ patchPluginXml {
     changeNotes """
       v1.0.0 release Json Master with features:<br> * tab window management; * dialog management; * multi style support for parsing json.<br>
       v1.1.0 convert raw style into compact style.<br>
+      v1.2.0 added xml/csv/yaml support.<br>
       """
 }
