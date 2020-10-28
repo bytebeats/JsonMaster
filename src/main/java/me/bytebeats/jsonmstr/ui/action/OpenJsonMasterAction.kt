@@ -1,0 +1,28 @@
+package me.bytebeats.jsonmstr.ui.action
+
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.PlatformDataKeys
+import me.bytebeats.jsonmstr.log.LogUtil
+
+/**
+ * @Author bytebeats
+ * @Email <happychinapc@gmail.com>
+ * @Github https://github.com/bytebeats
+ * @Created on 2020/10/16 15:57
+ * @Version 1.0
+ * @Description OpenJsonMasterAction is Action to popup Json Master Plugin
+ */
+
+class OpenJsonMasterAction : AnAction() {
+    override fun actionPerformed(event: AnActionEvent) {
+        val editor = event.getData(PlatformDataKeys.EDITOR) ?: return
+        val model = editor.selectionModel
+        val text = model.selectedText
+        if (text.isNullOrEmpty()) {
+            LogUtil.i("text is null or empty")
+            return
+        }
+        LogUtil.i("text is: $text")
+    }
+}
