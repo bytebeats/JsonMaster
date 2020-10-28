@@ -33,7 +33,7 @@ class JMRadioAction @JvmOverloads constructor(
 
     }
 
-    override fun createCustomComponent(presentation: Presentation, place: String): JComponent {
+    override fun createCustomComponent(presentation: Presentation): JComponent {
         val radioBtn = JRadioButton("")
         radioBtn.addActionListener { e ->
             val btn = e.source as JRadioButton

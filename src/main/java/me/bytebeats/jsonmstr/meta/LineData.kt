@@ -9,4 +9,4 @@ package me.bytebeats.jsonmstr.meta
  * @Description LineData contains line number and line offset of Parser Exception of Gson
  */
 
-data class LineData(val number: Int, val offset: Int)
+data class LineData(var number: Int = 0, var offset: Int = 0)

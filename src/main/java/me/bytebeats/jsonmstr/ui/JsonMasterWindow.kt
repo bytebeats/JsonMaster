@@ -16,6 +16,8 @@ import com.intellij.openapi.wm.ex.ToolWindowManagerEx
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
 import com.intellij.ui.content.Content
 import com.intellij.ui.content.ContentFactory
+import com.intellij.ui.content.ContentManagerEvent
+import com.intellij.ui.content.ContentManagerListener
 import me.bytebeats.jsonmstr.log.LogUtil
 import me.bytebeats.jsonmstr.ui.action.AddTabAction
 import me.bytebeats.jsonmstr.ui.action.CloseTabAction
@@ -43,7 +45,7 @@ class JsonMasterWindow(private val project: Project) {
         val content = createContentPanel(toolWindow)
         content.isCloseable = true
         toolWindow.contentManager.addContent(content)
-        ((ToolWindowManager.getInstance(project)) as ToolWindowManagerEx).addToolWindowManagerListener(
+        ToolWindowManagerEx.getInstanceEx(project).addToolWindowManagerListener(
             createToolWindowListener()
         )
     }
@@ -79,14 +81,13 @@ class JsonMasterWindow(private val project: Project) {
 
     private fun createToolWindowListener(): ToolWindowManagerListener {
         return object : ToolWindowManagerListener {
-            override fun toolWindowsRegistered(ids: MutableList<String>) {
-                super.toolWindowsRegistered(ids)
-                LogUtil.i(ids.toString())
+
+            override fun toolWindowRegistered(id: String) {
+                Logger.i("toolWindowRegistered: $id")
             }
 
-            override fun stateChanged(toolWindowManager: ToolWindowManager) {
-                super.stateChanged(toolWindowManager)
-                val toolWindow = toolWindowManager.getToolWindow(PLUGIN_NAME)
+            override fun stateChanged() {
+                val toolWindow = ToolWindowManagerEx.getInstanceEx(project).getToolWindow(PLUGIN_NAME)
                 toolWindow?.apply {
                     if (isVisible && contentManager.contentCount == 0) {
                         addContentTo(this)

@@ -56,16 +56,6 @@ public class VerticalTabWindow implements ComponentProvider {
             public void documentChanged(@NotNull DocumentEvent event) {
                 // TODO: 2020/10/14 parse when raw json changed
             }
-
-            @Override
-            public void bulkUpdateStarting(@NotNull Document document) {
-
-            }
-
-            @Override
-            public void bulkUpdateFinished(@NotNull Document document) {
-
-            }
         });
     }
 
