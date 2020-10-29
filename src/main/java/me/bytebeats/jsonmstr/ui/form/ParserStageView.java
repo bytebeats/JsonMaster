@@ -1,8 +1,11 @@
 package me.bytebeats.jsonmstr.ui.form;
 
+import com.ctc.wstx.stax.WstxInputFactory;
+import com.ctc.wstx.stax.WstxOutputFactory;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
@@ -43,20 +46,21 @@ import me.bytebeats.jsonmstr.util.TreeModelFactory;
 import me.bytebeats.jsonmstr.util.*;
 import org.apache.commons.httpclient.Header;
 import org.apache.http.util.TextUtils;
+import org.codehaus.stax2.XMLInputFactory2;
+import org.codehaus.stax2.XMLOutputFactory2;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamWriter;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -273,7 +277,7 @@ public class ParserStageView implements ComponentProvider {
             });
             ((EditorEx) prettyEditor).setHighlighter(createHighlighter(getFileType(null)));
         } catch (Exception e) {
-            handleException(prettyEditor, e, raw);
+            handleJsonSyntaxException(prettyEditor, e, raw);
         }
     }
 
@@ -305,7 +309,7 @@ public class ParserStageView implements ComponentProvider {
         }
     }
 
-    private String getPrettyJson(String raw) throws Exception {
+    private String getPrettyJson(String raw) throws RuntimeException {
         if (raw == null || raw.isEmpty()) return "";
         return GsonUtil.INSTANCE.toPrettyString(raw);
     }
@@ -319,13 +323,26 @@ public class ParserStageView implements ComponentProvider {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
-            XmlMapper xmlMapper = new XmlMapper();
-            xmlMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+            //solution 1
+            XMLInputFactory2 inputFactory = new WstxInputFactory();
+            XMLOutputFactory2 outputFactory = new WstxOutputFactory();
+            XmlFactory xmlFactory = new XmlFactory(inputFactory, outputFactory);
+            XmlMapper xmlMapper = new XmlMapper(xmlFactory);
             xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
-            xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_1_1, true);
-            StringWriter writer = new StringWriter();
-            xmlMapper.writeValue(writer, jsonNode);
-            String jsonAsXml = writer.toString();
+            String jsonAsXml = xmlMapper.writer().withRootName("xml").withDefaultPrettyPrinter().writeValueAsString(jsonNode);
+            //solution 2
+//            XMLInputFactory xmlInputFactory = XMLInputFactory.newFactory();
+//            XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
+//            StringWriter stringWriter = new StringWriter();
+//            XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(stringWriter);
+//            XmlMapper mapper = new XmlMapper(xmlInputFactory);
+//            xmlStreamWriter.writeStartDocument("1.0", "UTF-8");
+//            xmlStreamWriter.writeStartElement("xml");
+//            mapper.writeValue(xmlStreamWriter, jsonNode);
+//            xmlStreamWriter.writeComment("here are comments");
+//            xmlStreamWriter.writeEndElement();
+//            xmlStreamWriter.writeEndDocument();
+//            String jsonAsXml = stringWriter.toString();//not pretty printing
 
             WriteCommandAction.runWriteCommandAction(mProject, () -> {
                 Document document = xmlEditor.getDocument();
@@ -335,8 +352,7 @@ public class ParserStageView implements ComponentProvider {
             });
             ((EditorEx) xmlEditor).setHighlighter(createHighlighter(getFileType(null)));
         } catch (Exception e) {
-            e.printStackTrace();
-//            LogUtil.INSTANCE.e(((JsonProcessingException) e).getOriginalMessage());
+            handleJsonSyntaxException(xmlEditor, e, raw);
         }
     }
 
@@ -354,8 +370,7 @@ public class ParserStageView implements ComponentProvider {
             });
             ((EditorEx) yamlEditor).setHighlighter(createHighlighter(getFileType(null)));
         } catch (Exception e) {
-            e.printStackTrace();
-//            LogUtil.INSTANCE.e(e.getMessage());
+            handleJsonSyntaxException(yamlEditor, e, raw);
         }
     }
 
@@ -394,11 +409,11 @@ public class ParserStageView implements ComponentProvider {
             });
             ((EditorEx) csvEditor).setHighlighter(createHighlighter(getFileType(null)));
         } catch (Exception e) {
-            handleException(csvEditor, e, raw);
+            handleJsonSyntaxException(csvEditor, e, raw);
         }
     }
 
-    private void handleException(Editor editor, Exception e, String raw) {
+    private void handleJsonSyntaxException(Editor editor, Exception e, String raw) {
         if (e instanceof JsonSyntaxException) {
             String msg = e.getMessage();
             if (TextUtils.isEmpty(msg) && e.getCause() != null && !TextUtils.isEmpty(e.getCause().getMessage())) {
@@ -418,6 +433,5 @@ public class ParserStageView implements ComponentProvider {
             });
             ((EditorEx) editor).setHighlighter(createHighlighter(getFileType(null)));
         }
-
     }
 }
