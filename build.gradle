@@ -27,6 +27,7 @@ dependencies {
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.3"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.11.3"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.3"
+    implementation "com.fasterxml.woodstox:woodstox-core:6.2.3"
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/

@@ -2,10 +2,10 @@ package me.bytebeats.jsonmstr.util
 
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
-import com.google.gson.JsonSyntaxException
+import java.lang.RuntimeException
 
 object GsonUtil {
-    @Throws(JsonSyntaxException::class)
+    @Throws(RuntimeException::class)
     fun toPrettyString(raw: String): String {
         val gson = GsonBuilder().setPrettyPrinting().create()
         val jsonElement = JsonParser().parse(raw)
