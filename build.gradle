@@ -24,10 +24,14 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-annotations:2.11.3"
     implementation "com.fasterxml.jackson.core:jackson-core:2.11.3"
     implementation "com.fasterxml.jackson.core:jackson-databind:2.11.3"
+    implementation "com.fasterxml.jackson.module:jackson-module-osgi:2.11.3"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.3"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.11.3"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.3"
+//    implementation "com.fasterxml.jackson.dataformat:jackson-dataformats-text:2.11.3"
     implementation "com.fasterxml.woodstox:woodstox-core:6.2.3"
+    implementation "javax.xml.stream:stax-api:1.0-2"
+    implementation "javax.xml.bind:jaxb-api:2.3.1"
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
