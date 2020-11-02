@@ -27,7 +27,6 @@ import java.awt.*;
 
 public class HorizontalTabWindow implements ComponentProvider {
     private Project mProject;
-    private Disposable mParent;
     private Editor mInputEditor;
 
     private JPanel v_tab_panel;
@@ -38,9 +37,8 @@ public class HorizontalTabWindow implements ComponentProvider {
     private JButton v_tab_parse_btn;
     private ParserStageView mParserStageView;
 
-    public HorizontalTabWindow(Project project, Disposable disposable) {
+    public HorizontalTabWindow(Project project) {
         this.mProject = project;
-        this.mParent = disposable;
         this.mInputEditor = createEditor();
         this.mParserStageView = new ParserStageView(mProject, this);
         this.v_tab_raw_input_panel.add(mInputEditor.getComponent(), BorderLayout.CENTER);
@@ -89,5 +87,11 @@ public class HorizontalTabWindow implements ComponentProvider {
     private void parse() {
         String text = mInputEditor.getDocument().getText();
         mParserStageView.parse(text);
+    }
+
+    public void setJson(String json) {
+        if (mInputEditor != null && json != null && !"".equals(json)) {
+            mInputEditor.getDocument().setText(json);
+        }
     }
 }

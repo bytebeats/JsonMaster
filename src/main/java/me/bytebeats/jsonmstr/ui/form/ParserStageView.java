@@ -1,14 +1,5 @@
 package me.bytebeats.jsonmstr.ui.form;
 
-import com.ctc.wstx.stax.WstxInputFactory;
-import com.ctc.wstx.stax.WstxOutputFactory;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.fasterxml.jackson.dataformat.xml.XmlFactory;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import com.google.gson.JsonSyntaxException;
 import com.intellij.icons.AllIcons;
 import com.intellij.ide.highlighter.HtmlFileHighlighter;
@@ -43,11 +34,8 @@ import me.bytebeats.jsonmstr.util.Constants;
 import me.bytebeats.jsonmstr.util.GsonUtil;
 import me.bytebeats.jsonmstr.util.LineDataUtil;
 import me.bytebeats.jsonmstr.util.TreeModelFactory;
-import me.bytebeats.jsonmstr.util.*;
 import org.apache.commons.httpclient.Header;
 import org.apache.http.util.TextUtils;
-import org.codehaus.stax2.XMLInputFactory2;
-import org.codehaus.stax2.XMLOutputFactory2;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -56,9 +44,6 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Author bytebeats
@@ -120,23 +105,21 @@ public class ParserStageView implements ComponentProvider {
         parsePretty(rawJson);
         parseCompact(rawJson);
         parseTree(rawJson);
-        parseXML(rawJson);
-        parseCSV(rawJson);
-        parseYAML(rawJson);
     }
 
     private void createToolPanel() {
         stage_tool_bar = new SimpleToolWindowPanel(true, true);
         final ButtonGroup buttonGroup = new ButtonGroup();
-        final AnAction[] actions = new AnAction[7];
+//        final AnAction[] actions = new AnAction[7];
+        final AnAction[] actions = new AnAction[4];
         final ActionListener listener = e -> mPreviewCardLayout.show(stage_content_panel, e.getActionCommand());
         actions[0] = new JMRadioAction(Constants.PRETTY, Constants.PRETTY, buttonGroup, listener, true);
         actions[1] = new JMRadioAction(Constants.COMPACT, Constants.COMPACT, buttonGroup, listener);
         actions[2] = new JMRadioAction(Constants.TREE, Constants.TREE, buttonGroup, listener);
-        actions[3] = new JMRadioAction(Constants.XML, Constants.XML, buttonGroup, listener);
-        actions[4] = new JMRadioAction(Constants.CSV, Constants.CSV, buttonGroup, listener);
-        actions[5] = new JMRadioAction(Constants.YAML, Constants.YAML, buttonGroup, listener);
-        actions[6] = new AnAction(Constants.USE_SOFT_WRAPS, Constants.USE_SOFT_WRAPS_DESC, AllIcons.Actions.ToggleSoftWrap) {
+//        actions[3] = new JMRadioAction(Constants.XML, Constants.XML, buttonGroup, listener);
+//        actions[4] = new JMRadioAction(Constants.CSV, Constants.CSV, buttonGroup, listener);
+//        actions[5] = new JMRadioAction(Constants.YAML, Constants.YAML, buttonGroup, listener);
+        actions[3] = new AnAction(Constants.USE_SOFT_WRAPS, Constants.USE_SOFT_WRAPS_DESC, AllIcons.Actions.ToggleSoftWrap) {
             @Override
             public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
                 EventQueue.invokeLater(() -> {
@@ -314,100 +297,6 @@ public class ParserStageView implements ComponentProvider {
     private String getCompactJson(String raw) {
         if (raw == null || raw.isEmpty()) return "";
         return raw.replaceAll("\t|\r|\n|\\s*", "");
-    }
-
-    private void parseXML(String raw) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
-            //solution 1
-            XMLInputFactory2 inputFactory = new WstxInputFactory();
-            XMLOutputFactory2 outputFactory = new WstxOutputFactory();
-            XmlFactory xmlFactory = new XmlFactory(inputFactory, outputFactory);
-            XmlMapper xmlMapper = new XmlMapper(xmlFactory);
-            xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
-            String jsonAsXml = xmlMapper.writer().withRootName("xml").withDefaultPrettyPrinter().writeValueAsString(jsonNode);
-            //solution 2
-//            XMLInputFactory xmlInputFactory = XMLInputFactory.newFactory();
-//            XMLOutputFactory xmlOutputFactory = XMLOutputFactory.newFactory();
-//            StringWriter stringWriter = new StringWriter();
-//            XMLStreamWriter xmlStreamWriter = xmlOutputFactory.createXMLStreamWriter(stringWriter);
-//            XmlMapper mapper = new XmlMapper(xmlInputFactory);
-//            xmlStreamWriter.writeStartDocument("1.0", "UTF-8");
-//            xmlStreamWriter.writeStartElement("xml");
-//            mapper.writeValue(xmlStreamWriter, jsonNode);
-//            xmlStreamWriter.writeComment("here are comments");
-//            xmlStreamWriter.writeEndElement();
-//            xmlStreamWriter.writeEndDocument();
-//            String jsonAsXml = stringWriter.toString();//not pretty printing
-
-            WriteCommandAction.runWriteCommandAction(mProject, () -> {
-                Document document = xmlEditor.getDocument();
-                document.setReadOnly(false);
-                document.setText(jsonAsXml);
-                document.setReadOnly(true);
-            });
-            ((EditorEx) xmlEditor).setHighlighter(createHighlighter(getFileType(null)));
-        } catch (Exception e) {
-            handleJsonSyntaxException(xmlEditor, e, raw);
-        }
-    }
-
-    private void parseYAML(String raw) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
-            YAMLMapper yamlMapper = new YAMLMapper();
-            String jsonAsYAML = yamlMapper.writer().withRootName("yaml").withDefaultPrettyPrinter().writeValueAsString(jsonNode);
-            WriteCommandAction.runWriteCommandAction(mProject, () -> {
-                Document document = yamlEditor.getDocument();
-                document.setReadOnly(false);
-                document.setText(jsonAsYAML);
-                document.setReadOnly(true);
-            });
-            ((EditorEx) yamlEditor).setHighlighter(createHighlighter(getFileType(null)));
-        } catch (Exception e) {
-            handleJsonSyntaxException(yamlEditor, e, raw);
-        }
-    }
-
-    private void parseCSV(String raw) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonTree = objectMapper.readTree(getPrettyJson(raw));
-            String jsonAsCSV = "";
-            if (CsvUtil.INSTANCE.hasNestedObjects(jsonTree)) {
-                List<String> columns = new ArrayList<>();
-                List<String> values = new ArrayList<>();
-                CsvUtil.INSTANCE.parseCSV(columns, values, jsonTree, "");
-                jsonAsCSV += String.join(",", columns);
-                jsonAsCSV += "\n";
-                jsonAsCSV += String.join(",", values);
-            } else {
-                CsvSchema.Builder schemaBuilder = CsvSchema.builder();
-                if (jsonTree.isObject()) {
-                    jsonTree.fieldNames().forEachRemaining(schemaBuilder::addColumn);
-                } else {
-                    jsonTree.elements().next().fieldNames().forEachRemaining(schemaBuilder::addColumn);
-                }
-                CsvSchema schema = schemaBuilder.build().withHeader();
-                CsvMapper csvMapper = new CsvMapper();
-                StringWriter writer = new StringWriter();
-                csvMapper.writerFor(JsonNode.class).with(schema).withDefaultPrettyPrinter().writeValue(writer, jsonTree);
-                jsonAsCSV = writer.toString();
-            }
-
-            String finalJsonAsCSV = jsonAsCSV;
-            WriteCommandAction.runWriteCommandAction(mProject, () -> {
-                Document document = csvEditor.getDocument();
-                document.setReadOnly(false);
-                document.setText(finalJsonAsCSV);
-                document.setReadOnly(true);
-            });
-            ((EditorEx) csvEditor).setHighlighter(createHighlighter(getFileType(null)));
-        } catch (Exception e) {
-            handleJsonSyntaxException(csvEditor, e, raw);
-        }
     }
 
     private void handleJsonSyntaxException(Editor editor, Exception e, String raw) {

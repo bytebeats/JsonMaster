@@ -2,7 +2,7 @@
     <id>me.bytebeats.jsonmstr</id>
     <name>Json Master</name>
     <vendor email="happychinapc@gmail.com" url="https://github.com/bytebeats">bytebeats</vendor>
-    <version>1.2.0</version>
+    <version>1.1.1</version>
     <idea-version since-build="173.0" />
 
     <description><![CDATA[
@@ -17,7 +17,7 @@
     <change-notes><![CDATA[
       v1.0.0 release Json Master with features:<br> * tab window management; * dialog management; * multi style support for parsing json.<br>
       v1.1.0 convert raw style into compact style.<br>
-      v1.2.0 added xml/csv/yaml support.<br>
+      v1.1.1 open selected json in new window.<br>
     ]]></change-notes>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
@@ -26,8 +26,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <toolWindow id="Json Master" anchor="right"
-            factoryClass="me.bytebeats.jsonmstr.ui.JsonMasterWindowFactory" />
+        <toolWindow id="Json Master" anchor="right" factoryClass="me.bytebeats.jsonmstr.ui.JsonMasterWindowFactory" />
     </extensions>
 
     <actions>
@@ -35,6 +34,7 @@
         <action id="JsonMasterActionId" text="Json Master" description="Parse in Json Master"
             class="me.bytebeats.jsonmstr.ui.action.OpenJsonMasterAction">
             <add-to-group group-id="EditMenu" anchor="last" />
+            <add-to-group group-id="EditorPopupMenu" anchor="first" />
             <keyboard-shortcut first-keystroke="ctrl shift alt J" keymap="$default" second-keystroke="ctrl alt J" />
         </action>
     </actions>
