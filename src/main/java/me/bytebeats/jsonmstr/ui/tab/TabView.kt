@@ -60,7 +60,7 @@ class TabView(private val project: Project, private val disposable: Disposable) 
 
     override fun getComponent(): JComponent = mPanel
 
-    override fun newVerticalParserComponent(): JComponent = VerticalTabWindow(project, disposable).provide()
+    override fun newVerticalParserComponent(): JComponent = VerticalTabWindow(project).provide()
 
-    override fun newHorizontalParserComponent(): JComponent = HorizontalTabWindow(project, disposable).provide()
+    override fun newHorizontalParserComponent(): JComponent = HorizontalTabWindow(project).provide()
 }
