@@ -17,7 +17,7 @@
     <change-notes><![CDATA[
       v1.0.0 release Json Master with features:<br> * tab window management; * dialog management; * multi style support for parsing json.<br>
       v1.1.0 convert raw style into compact style.<br>
-      v1.1.1 open selected json in new window.<br>
+      v1.1.1 open selected json from EditMenu and EditPopupMenu.<br>
     ]]></change-notes>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
@@ -31,10 +31,11 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="JsonMasterActionId" text="Json Master" description="Parse in Json Master"
+        <action id="JsonMasterActionId" text="Json Master" description="Parse in json master"
             class="me.bytebeats.jsonmstr.ui.action.OpenJsonMasterAction">
             <add-to-group group-id="EditMenu" anchor="last" />
             <add-to-group group-id="EditorPopupMenu" anchor="first" />
+            <add-to-group group-id="ConsoleEditorPopupMenu" anchor="first" />
             <keyboard-shortcut first-keystroke="ctrl shift alt J" keymap="$default" second-keystroke="ctrl alt J" />
         </action>
     </actions>
