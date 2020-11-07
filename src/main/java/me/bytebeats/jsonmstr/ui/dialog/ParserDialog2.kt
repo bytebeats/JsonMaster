@@ -1,6 +1,7 @@
-package me.bytebeats.jsonmstr.ui
+package me.bytebeats.jsonmstr.ui.dialog
 
-import me.bytebeats.jsonmstr.ui.tab.ITabView
+import com.intellij.openapi.project.ex.ProjectManagerEx
+import me.bytebeats.jsonmstr.ui.form.HorizontalTabWindow
 import java.awt.BorderLayout
 import java.awt.Dimension
 import java.awt.EventQueue
@@ -18,11 +19,13 @@ import javax.swing.JFrame
  * @Description TO-DO
  */
 
-class ParserDialog(private val tabView: ITabView, title: String, private val count: Int) : JFrame(title) {
+class ParserDialog2(private val json: String, title: String, private val count: Int) : JFrame(title) {
     var windowAdapter: WindowAdapter? = null
+    private val tabWindow by lazy { HorizontalTabWindow(ProjectManagerEx.getInstanceEx().defaultProject) }
 
     init {
         setupView()
+        tabWindow.setJson(json)
     }
 
     private fun setupView() {
@@ -37,7 +40,7 @@ class ParserDialog(private val tabView: ITabView, title: String, private val cou
             height = 400
         }
         preferredSize = Dimension(width, height)
-        add(tabView.newHorizontalParserComponent(), BorderLayout.CENTER)
+        add(tabWindow.provide(), BorderLayout.CENTER)
         size = Dimension(width, height)
 
         val x = screenSize.width / 2 - width / 2 + count * 20
