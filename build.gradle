@@ -28,6 +28,7 @@ dependencies {
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.3"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.11.3"
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.3"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-properties:2.11.3"
 //    implementation "com.fasterxml.jackson.dataformat:jackson-dataformats-text:2.11.3"
     implementation "com.fasterxml.woodstox:woodstox-core:6.2.3"
     implementation "javax.xml.stream:stax-api:1.0-2"
@@ -36,7 +37,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2020.2.1'
+    version '2020.2.3'
     pluginName 'Json Master'
     updateSinceUntilBuild false
 }
