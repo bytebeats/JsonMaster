@@ -50,3 +50,7 @@ Search `Json Master` in `IntelliJ IDEA/Preferences/Plugins/Marketplace` and clic
 # Contributors
 
 # Donates
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/bytebeats/JsonMaster.svg)](https://starchart.cc/bytebeats/JsonMaster)
