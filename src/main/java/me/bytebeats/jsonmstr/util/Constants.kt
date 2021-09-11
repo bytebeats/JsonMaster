@@ -25,5 +25,6 @@ class Constants {
         const val XML = "XML"
         const val YAML = "YAML"
         const val CSV = "CSV"
+        const val PROPERTIES = "Properties"
     }
 }

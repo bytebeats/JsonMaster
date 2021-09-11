@@ -82,6 +82,16 @@
             <border type="empty"/>
             <children/>
           </grid>
+          <grid id="8ae92" binding="stage_properties_panel" layout-manager="CardLayout" hgap="0" vgap="0">
+            <constraints>
+              <card name="Properties"/>
+            </constraints>
+            <properties>
+              <toolTipText value="Properties"/>
+            </properties>
+            <border type="empty"/>
+            <children/>
+          </grid>
         </children>
       </grid>
       <grid id="5214c" binding="stage_tool_bar_panel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

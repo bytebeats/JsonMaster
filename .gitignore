@@ -79,4 +79,4 @@ fabric.properties
 /.idea/$CACHE_FILE$
 /out
 /build
-/.idea/
+.idea/
