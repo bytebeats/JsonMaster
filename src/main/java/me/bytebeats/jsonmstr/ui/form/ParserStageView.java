@@ -68,6 +68,7 @@ public class ParserStageView implements ComponentProvider {
     private JPanel stage_xml_panel;
     private JPanel stage_csv_panel;
     private JPanel stage_yaml_panel;
+    private JPanel stage_properties_panel;
 
     private final CardLayout mPreviewCardLayout;
     private final Editor prettyEditor;
@@ -75,6 +76,7 @@ public class ParserStageView implements ComponentProvider {
     private final Editor xmlEditor;
     private final Editor csvEditor;
     private final Editor yamlEditor;
+    private final Editor propertiesEditor;
 
     public ParserStageView(Project mProject, ComponentProvider provider) {
         this.mProject = mProject;
@@ -86,12 +88,14 @@ public class ParserStageView implements ComponentProvider {
         xmlEditor = createEditor();
         csvEditor = createEditor();
         yamlEditor = createEditor();
+        propertiesEditor = createEditor();
 
         stage_pretty_panel.add(prettyEditor.getComponent(), BorderLayout.CENTER);
         stage_compact_panel.add(compactEditor.getComponent(), BorderLayout.CENTER);
         stage_xml_panel.add(xmlEditor.getComponent(), BorderLayout.CENTER);
         stage_csv_panel.add(csvEditor.getComponent(), BorderLayout.CENTER);
         stage_yaml_panel.add(yamlEditor.getComponent(), BorderLayout.CENTER);
+        stage_properties_panel.add(propertiesEditor.getComponent(), BorderLayout.CENTER);
         updateTreeIcon();
         resetTree();
         createToolPanel();
@@ -116,10 +120,10 @@ public class ParserStageView implements ComponentProvider {
         actions[0] = new JMRadioAction(Constants.PRETTY, Constants.PRETTY, buttonGroup, listener, true);
         actions[1] = new JMRadioAction(Constants.COMPACT, Constants.COMPACT, buttonGroup, listener);
         actions[2] = new JMRadioAction(Constants.TREE, Constants.TREE, buttonGroup, listener);
-//        actions[3] = new JMRadioAction(Constants.XML, Constants.XML, buttonGroup, listener);
-//        actions[4] = new JMRadioAction(Constants.CSV, Constants.CSV, buttonGroup, listener);
-//        actions[5] = new JMRadioAction(Constants.YAML, Constants.YAML, buttonGroup, listener);
-        actions[3] = new AnAction(Constants.USE_SOFT_WRAPS, Constants.USE_SOFT_WRAPS_DESC, AllIcons.Actions.ToggleSoftWrap) {
+        actions[3] = new JMRadioAction(Constants.XML, Constants.XML, buttonGroup, listener);
+        actions[4] = new JMRadioAction(Constants.CSV, Constants.CSV, buttonGroup, listener);
+        actions[5] = new JMRadioAction(Constants.YAML, Constants.YAML, buttonGroup, listener);
+        actions[6] = new AnAction(Constants.USE_SOFT_WRAPS, Constants.USE_SOFT_WRAPS_DESC, AllIcons.Actions.ToggleSoftWrap) {
             @Override
             public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
                 EventQueue.invokeLater(() -> {
@@ -140,6 +144,9 @@ public class ParserStageView implements ComponentProvider {
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
                             } else if (Constants.YAML.equals(actionCommand)) {
                                 EditorSettings settings = yamlEditor.getSettings();
+                                settings.setUseSoftWraps(!settings.isUseSoftWraps());
+                            } else if (Constants.PROPERTIES.equals(actionCommand)) {
+                                EditorSettings settings = propertiesEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
                             }
                         }
