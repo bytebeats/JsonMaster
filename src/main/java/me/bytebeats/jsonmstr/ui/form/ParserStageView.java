@@ -127,6 +127,7 @@ public class ParserStageView implements ComponentProvider {
         parseXML(rawJson);
         parseCSV(rawJson);
         parseYAML(rawJson);
+        parseProperties(rawJson);
     }
 
     private void createToolPanel() {
@@ -140,7 +141,8 @@ public class ParserStageView implements ComponentProvider {
         actions[3] = new JMRadioAction(Constants.XML, Constants.XML, buttonGroup, listener);
         actions[4] = new JMRadioAction(Constants.CSV, Constants.CSV, buttonGroup, listener);
         actions[5] = new JMRadioAction(Constants.YAML, Constants.YAML, buttonGroup, listener);
-        actions[6] = new AnAction(Constants.USE_SOFT_WRAPS, Constants.USE_SOFT_WRAPS_DESC, AllIcons.Actions.ToggleSoftWrap) {
+        actions[6] = new JMRadioAction(Constants.PROPERTIES, Constants.PROPERTIES, buttonGroup, listener);
+        actions[7] = new AnAction(Constants.USE_SOFT_WRAPS, Constants.USE_SOFT_WRAPS_DESC, AllIcons.Actions.ToggleSoftWrap) {
             @Override
             public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
                 EventQueue.invokeLater(() -> {
@@ -357,6 +359,24 @@ public class ParserStageView implements ComponentProvider {
             ((EditorEx) xmlEditor).setHighlighter(createHighlighter(getFileType(null)));
         } catch (Exception e) {
             handleJsonSyntaxException(xmlEditor, e, raw);
+        }
+    }
+
+    private void parseProperties(String raw) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
+            YAMLMapper yamlMapper = new YAMLMapper();
+            String jsonAsYAML = yamlMapper.writer().withRootName("yaml").withDefaultPrettyPrinter().writeValueAsString(jsonNode);
+            WriteCommandAction.runWriteCommandAction(mProject, () -> {
+                Document document = yamlEditor.getDocument();
+                document.setReadOnly(false);
+                document.setText(jsonAsYAML);
+                document.setReadOnly(true);
+            });
+            ((EditorEx) yamlEditor).setHighlighter(createHighlighter(getFileType(null)));
+        } catch (Exception e) {
+            handleJsonSyntaxException(yamlEditor, e, raw);
         }
     }
 

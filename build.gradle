@@ -25,9 +25,9 @@ dependencies {
 //    implementation 'com.fasterxml.jackson.module:jackson-module-osgi:2.12.5'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.5'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-csv:2.12.5'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.5'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-properties:2.12.5'
-//    implementation "com.fasterxml.jackson.dataformat:jackson-dataformats-text:2.11.3"
+//    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.12.5'
+//    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-properties:2.12.5'
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformats-text:2.12.5"
 //    implementation 'com.fasterxml.woodstox:woodstox-core:6.2.6'
 //    implementation "javax.xml.stream:stax-api:1.0-2"
 //    implementation 'javax.xml.bind:jaxb-api:2.4.0-b180830.0359'
