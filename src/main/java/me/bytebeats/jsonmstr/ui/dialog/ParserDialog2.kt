@@ -1,5 +1,6 @@
 package me.bytebeats.jsonmstr.ui.dialog
 
+import com.intellij.openapi.application.ex.ApplicationManagerEx
 import com.intellij.openapi.project.ex.ProjectManagerEx
 import me.bytebeats.jsonmstr.ui.form.HorizontalTabWindow
 import java.awt.BorderLayout
@@ -25,7 +26,10 @@ class ParserDialog2(private val json: String, title: String, private val count: 
 
     init {
         setupView()
-        tabWindow.setJson(json)
+        //Write access is allowed inside write-action only (see com.intellij.openapi.application.Application.runWriteAction())
+        ApplicationManagerEx.getApplication().runWriteAction {
+            tabWindow.setJson(json)
+        }
     }
 
     private fun setupView() {
