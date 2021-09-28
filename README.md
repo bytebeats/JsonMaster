@@ -1,17 +1,27 @@
 # JsonMaster
+[![GitHub latest commit](https://badgen.net/github/last-commit/bytebeats/JsonMaster)](https://github.com/bytebeats/JsonMaster/commit/)
+[![GitHub contributors](https://img.shields.io/github/contributors/bytebeats/JsonMaster.svg)](https://github.com/bytebeats/JsonMaster/graphs/contributors/)
+[![GitHub issues](https://img.shields.io/github/issues/bytebeats/JsonMaster.svg)](https://github.com/bytebeats/JsonMaster/issues/)
+[![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://github.com/bytebeats/JsonMaster/)
+[![JetBrains Plugins](https://img.shields.io/jetbrains/plugin/v/15218-JsonMaster.svg)](https://plugins.jetbrains.com/plugin/15218-money-never-sleeps)
+[![JetBrains Plugins](https://img.shields.io/jetbrains/plugin/r/rating/15218)](https://plugins.jetbrains.com/plugin/15218-money-never-sleeps)
+[![GitHub forks](https://img.shields.io/github/forks/bytebeats/JsonMaster.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/bytebeats/JsonMaster/network/)
+[![GitHub stars](https://img.shields.io/github/stars/bytebeats/JsonMaster.svg?style=social&label=Star&maxAge=2592000)](https://github.com/bytebeats/JsonMaster/stargazers/)
+[![GitHub watchers](https://img.shields.io/github/watchers/bytebeats/JsonMaster.svg?style=social&label=Watch&maxAge=2592000)](https://github.com/bytebeats/JsonMaster/watchers/)
+
 Json Master is a lightweight plugin for validating JSON and formatting JSON in Xml/CVS/Yaml style and generating a Java/Kotlin/Dart Class from a JSON strings.<br>
 
 Tired of validating and formatting JSON in a browser?<br>
 Weary of converting JSON to formatting of Xml/CVS/Yaml style in different tabs of a browser?<br>
 Interested in generating a Java/Kotlin/Dart Class from JSON?<br>
 Why don't you install Json Master and do the job inside the IDEA with offline support?<br>
-Try install it and spread the word :)<br>
+Try to install it and spread the word :)<br>
 
-# Installation
+## Installation
 
 Search `Json Master` in `IntelliJ IDEA/Preferences/Plugins/Marketplace` and click `Install`
 
-# To-Dos
+## To-Dos
 * <s>Json to XML</s>
 * <s>Json to YAML</s>
 * <s>Json to CVS</s>
@@ -19,7 +29,7 @@ Search `Json Master` in `IntelliJ IDEA/Preferences/Plugins/Marketplace` and clic
 * Json to Kotlin Class
 * Json to Dart Class
 
-# Support
+## Support
 <br>Open-source is no easy job, for which I have to sacrifice my weekends and other non-working hours.</br>
 <br>开源不易, 尤其是对于全职的开源爱好者. 需要占用不少下班以及周末时间.</br>
 <br>If you think this plugin is meaningful, is worthy, you are welcome to support this project by following:</br>
@@ -42,15 +52,16 @@ Search `Json Master` in `IntelliJ IDEA/Preferences/Plugins/Marketplace` and clic
 <br>邮箱地址：<a href="mailto:happychinapc@gmail.com?subject=JsonMaster捐赠&body=你做的工作很有意义, 加油!">happychinapc@gmail.com</a></br>
 <br>感谢您的支持！</br>
 
-# More plugins
+## More plugins
 * [mns](https://github.com/bytebeats/mns) Money Never Sleeps!
 * [Polyglot](https://github.com/bytebeats/polyglot) Translators
 * [kfiglet](https://github.com/bytebeats/kfiglet) Ascii Arts
 
-# Contributors
-
-# Donates
-
 ## Stargazers over time
-
 [![Stargazers over time](https://starchart.cc/bytebeats/JsonMaster.svg)](https://starchart.cc/bytebeats/JsonMaster)
+
+## Github Stars Sparklines
+[![Sparkline](https://stars.medv.io/bytebeats/JsonMaster.svg)](https://stars.medv.io/bytebeats/JsonMaster)
+
+## Contributors
+[![Contributors over time](https://contributor-graph-api.apiseven.com/contributors-svg?chart=contributorOverTime&repo=bytebeats/JsonMaster)](https://www.apiseven.com/en/contributor-graph?chart=contributorOverTime&repo=bytebeats/JsonMaster)
