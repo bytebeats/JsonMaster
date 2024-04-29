@@ -1,9 +1,9 @@
 <idea-plugin>
-    <id>me.bytebeats.jsonmstr</id>
+    <id>me.bytebeats.jsonmaster</id>
     <name>Json Master</name>
     <vendor email="happychinapc@gmail.com" url="https://github.com/bytebeats">bytebeats</vendor>
     <version>1.2.0</version>
-    <idea-version since-build="200.0" />
+    <idea-version since-build="230.*" />
 
     <description><![CDATA[
     Weary of converting JSON into Xml/CVS/Yaml in a browser?<br>
@@ -27,13 +27,13 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <toolWindow id="Json Master" anchor="right" factoryClass="me.bytebeats.jsonmstr.ui.JsonMasterWindowFactory" />
+        <toolWindow id="Json Master" anchor="right" factoryClass="me.bytebeats.jsonmaster.ui.JsonMasterWindowFactory" />
     </extensions>
 
     <actions>
         <!-- Add your actions here -->
         <action id="JsonMasterActionId" text="Json Master" description="Parse in json master"
-            class="me.bytebeats.jsonmstr.ui.action.OpenJsonMasterAction">
+            class="me.bytebeats.jsonmaster.ui.action.OpenJsonMasterAction">
             <add-to-group group-id="EditMenu" anchor="last" />
             <add-to-group group-id="EditorPopupMenu" anchor="first" />
             <add-to-group group-id="ConsoleEditorPopupMenu" anchor="first" />
@@ -43,7 +43,7 @@
 
     <project-components>
         <component>
-            <implementation-class>me.bytebeats.jsonmstr.ui.JsonMasterWindow</implementation-class>
+            <implementation-class>me.bytebeats.jsonmaster.ui.JsonMasterWindow</implementation-class>
         </component>
     </project-components>
 </idea-plugin>
