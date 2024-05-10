@@ -1,17 +1,17 @@
 <idea-plugin>
-    <id>me.bytebeats.jsonmaster</id>
+    <id>me.bytebeats.jsonmstr</id>
     <name>Json Master</name>
     <vendor email="happychinapc@gmail.com" url="https://github.com/bytebeats">bytebeats</vendor>
     <version>1.3.0</version>
-    <idea-version since-build="230.*" />
+    <idea-version since-build="231.*" />
 
     <description><![CDATA[
-    Weary of converting JSON into Xml/CVS/Yaml in a browser?<br>
+    Weary of converting JSON into Xml/CVS/Yaml/Toml/Properties in a browser?<br>
     Interested in generating a Java/Kotlin/Dart Class from JSON?<br>
     Tired of validating and formatting JSON in a browser?<br>
     Why don't you install Json Master and do the job inside the IDEA with offline support?<br>
-    Json Master is a lightweight plugin for validating JSON and formatting JSON in Xml/CVS/Yaml style and generating a Java/Kotlin/Dart Class from a JSON strings.<br>
-    Try install it and spread the word :)<br>
+    Json Master is a lightweight plugin for validating JSON and formatting JSON in Xml/CVS/Yaml/Toml/Properties style and generating a Java/Kotlin/Dart Class from a JSON strings.<br>
+    Try to install it and spread the word :)<br>
     ]]></description>
 
     <change-notes><![CDATA[
