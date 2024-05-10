@@ -3,7 +3,7 @@
     <name>Json Master</name>
     <vendor email="happychinapc@gmail.com" url="https://github.com/bytebeats">bytebeats</vendor>
     <version>1.3.0</version>
-    <idea-version since-build="231.*" />
+    <idea-version since-build="232.*" />
 
     <description><![CDATA[
     Weary of converting JSON into Xml/CVS/Yaml/Toml/Properties in a browser?<br>

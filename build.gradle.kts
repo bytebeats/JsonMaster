@@ -50,7 +50,7 @@ tasks {
     }
 
     patchPluginXml {
-        sinceBuild.set("231")
+        sinceBuild.set("232")
         untilBuild.set("242.*")
 
         changeNotes.set(
