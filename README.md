@@ -9,10 +9,10 @@
 [![GitHub stars](https://img.shields.io/github/stars/bytebeats/JsonMaster.svg?style=social&label=Star&maxAge=2592000)](https://github.com/bytebeats/JsonMaster/stargazers/)
 [![GitHub watchers](https://img.shields.io/github/watchers/bytebeats/JsonMaster.svg?style=social&label=Watch&maxAge=2592000)](https://github.com/bytebeats/JsonMaster/watchers/)
 
-Json Master is a lightweight plugin for validating JSON and formatting JSON in Xml/CVS/Yaml style and generating a Java/Kotlin/Dart Class from a JSON strings.<br>
+Json Master is a lightweight plugin for validating JSON and formatting JSON in Xml/CVS/Yaml/Toml/Properties style and generating a Java/Kotlin/Dart Class from a JSON strings.<br>
 
 Tired of validating and formatting JSON in a browser?<br>
-Weary of converting JSON to formatting of Xml/CVS/Yaml style in different tabs of a browser?<br>
+Weary of converting JSON to formatting of Xml/CVS/Yaml/Toml/Properties style in different tabs of a browser?<br>
 Interested in generating a Java/Kotlin/Dart Class from JSON?<br>
 Why don't you install Json Master and do the job inside the IDEA with offline support?<br>
 Try to install it and spread the word :)<br>
@@ -25,6 +25,9 @@ Search `Json Master` in `IntelliJ IDEA/Preferences/Plugins/Marketplace` and clic
 * <s>Json to XML</s>
 * <s>Json to YAML</s>
 * <s>Json to CVS</s>
+* <s>Json to Properties</s>
+* <s>Json to TOML</s>
+* Provide more configurations to target format
 * Json to Java Class
 * Json to Kotlin Class
 * Json to Dart Class
