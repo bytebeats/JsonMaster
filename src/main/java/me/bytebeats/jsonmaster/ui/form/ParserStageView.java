@@ -5,6 +5,8 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
+import com.fasterxml.jackson.dataformat.toml.TomlMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlFactory;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
@@ -150,29 +152,36 @@ public class ParserStageView implements ComponentProvider {
             public void actionPerformed(@NotNull AnActionEvent anActionEvent) {
                 EventQueue.invokeLater(() -> {
                     try {
-                        if (buttonGroup.getSelection() != null) {
-                            String actionCommand = buttonGroup.getSelection().getActionCommand();
-                            if (Constants.PRETTY.equals(actionCommand)) {
+                        switch (buttonGroup.getSelection().getActionCommand()) {
+                            case Constants.PRETTY -> {
                                 EditorSettings settings = prettyEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
-                            } else if (Constants.COMPACT.equals(actionCommand)) {
+                            }
+                            case Constants.COMPACT -> {
                                 EditorSettings settings = compactEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
-                            } else if (Constants.XML.equals(actionCommand)) {
+                            }
+                            case Constants.XML -> {
                                 EditorSettings settings = xmlEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
-                            } else if (Constants.CSV.equals(actionCommand)) {
+                            }
+                            case Constants.CSV -> {
                                 EditorSettings settings = csvEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
-                            } else if (Constants.YAML.equals(actionCommand)) {
+                            }
+                            case Constants.YAML -> {
                                 EditorSettings settings = yamlEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
-                            } else if (Constants.PROPERTIES.equals(actionCommand)) {
+                            }
+                            case Constants.PROPERTIES -> {
                                 EditorSettings settings = propertiesEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
-                            } else if (Constants.TOML.equals(actionCommand)) {
+                            }
+                            case Constants.TOML -> {
                                 EditorSettings settings = tomlEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
+                            }
+                            default -> {
                             }
                         }
                     } catch (Exception e) {
@@ -299,8 +308,7 @@ public class ParserStageView implements ComponentProvider {
             return;
         }
         try {
-            String prettyJson = getPrettyJson(raw);
-            DefaultTreeModel model = TreeModelFactory.INSTANCE.create(prettyJson);
+            DefaultTreeModel model = TreeModelFactory.INSTANCE.create(raw);
             stage_tree.setModel(model);
             expandAllNodes(stage_tree, 0, stage_tree.getRowCount());
         } catch (Exception e) {
@@ -322,8 +330,7 @@ public class ParserStageView implements ComponentProvider {
     private void parseXML(String raw) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-//            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
-            JsonNode jsonNode = objectMapper.readTree((raw));
+            JsonNode jsonNode = objectMapper.readTree(raw);
             //solution 1
             XMLInputFactory2 inputFactory = new WstxInputFactory();
             XMLOutputFactory2 outputFactory = new WstxOutputFactory();
@@ -360,14 +367,13 @@ public class ParserStageView implements ComponentProvider {
     private void parseProperties(String raw) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-//            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
-            JsonNode jsonNode = objectMapper.readTree((raw));
-            YAMLMapper yamlMapper = new YAMLMapper();
-            String jsonAsYAML = yamlMapper.writer().withRootName("yaml").withDefaultPrettyPrinter().writeValueAsString(jsonNode);
+            JsonNode jsonNode = objectMapper.readTree(raw);
+            JavaPropsMapper propsMapper = JavaPropsMapper.builder().build();
+            String jsonAsProps = propsMapper.writer().withDefaultPrettyPrinter().writeValueAsString(jsonNode);
             WriteCommandAction.runWriteCommandAction(mProject, () -> {
                 Document document = propertiesEditor.getDocument();
                 document.setReadOnly(false);
-                document.setText(jsonAsYAML);
+                document.setText(jsonAsProps);
                 document.setReadOnly(true);
             });
             ((EditorEx) propertiesEditor).setHighlighter(createHighlighter(getFileType()));
@@ -379,10 +385,9 @@ public class ParserStageView implements ComponentProvider {
     private void parseYAML(String raw) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-//            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
-            JsonNode jsonNode = objectMapper.readTree((raw));
+            JsonNode jsonNode = objectMapper.readTree(raw);
             YAMLMapper yamlMapper = new YAMLMapper();
-            String jsonAsYAML = yamlMapper.writer().withRootName("yaml").withDefaultPrettyPrinter().writeValueAsString(jsonNode);
+            String jsonAsYAML = yamlMapper.writer().withDefaultPrettyPrinter().writeValueAsString(jsonNode);
             WriteCommandAction.runWriteCommandAction(mProject, () -> {
                 Document document = yamlEditor.getDocument();
                 document.setReadOnly(false);
@@ -398,13 +403,13 @@ public class ParserStageView implements ComponentProvider {
     private void parseTOML(String raw) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
-            YAMLMapper yamlMapper = new YAMLMapper();
-            String jsonAsYAML = yamlMapper.writer().withRootName("yaml").withDefaultPrettyPrinter().writeValueAsString(jsonNode);
+            JsonNode jsonNode = objectMapper.readTree(raw);
+            TomlMapper tomlMapper = new TomlMapper();
+            String jsonAsToml = tomlMapper.writer().withDefaultPrettyPrinter().writeValueAsString(jsonNode);
             WriteCommandAction.runWriteCommandAction(mProject, () -> {
                 Document document = tomlEditor.getDocument();
                 document.setReadOnly(false);
-                document.setText(jsonAsYAML);
+                document.setText(jsonAsToml);
                 document.setReadOnly(true);
             });
             ((EditorEx) tomlEditor).setHighlighter(createHighlighter(getFileType()));
@@ -416,7 +421,7 @@ public class ParserStageView implements ComponentProvider {
     private void parseCSV(String raw) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonTree = objectMapper.readTree(getPrettyJson(raw));
+            JsonNode jsonTree = objectMapper.readTree(raw);
             String jsonAsCSV = "";
             if (CsvUtil.INSTANCE.hasNestedObjects(jsonTree)) {
                 List<String> columns = new ArrayList<>();
