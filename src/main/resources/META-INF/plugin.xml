@@ -2,7 +2,7 @@
     <id>me.bytebeats.jsonmaster</id>
     <name>Json Master</name>
     <vendor email="happychinapc@gmail.com" url="https://github.com/bytebeats">bytebeats</vendor>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
     <idea-version since-build="230.*" />
 
     <description><![CDATA[
@@ -19,6 +19,7 @@
       v1.1.0 convert raw style into compact style.<br>
       v1.1.1 open selected json from EditMenu, EditPopupMenu and ConsolePopupMenu.<br>
       v1.2.0 supported xml/yaml/csv/properties.<br>
+      v1.3.0 project upgrade and support xml/yaml/csv/properties.<br>
     ]]></change-notes>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html

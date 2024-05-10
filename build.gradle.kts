@@ -55,23 +55,20 @@ tasks {
 
         changeNotes.set(
             """
-      v1.0.0 release Json Master with features:<br> * tab window management; * dialog management; * multi style support for parsing json.<br>
-      v1.1.0 convert raw style into compact style.<br>
-      v1.1.1 open selected json from EditMenu, EditPopupMenu and ConsolePopupMenu.<br>
-      v1.2.0 supported xml/yaml/csv/properties.<br>
+      v1.3.0 project upgrade and support xml/yaml/csv/properties.<br>
       """
         )
     }
 
-//    signPlugin {
-//        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-//        privateKey.set(System.getenv("PRIVATE_KEY"))
-//        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
-//    }
-//
-//    publishPlugin {
-//        token.set(System.getenv("PUBLISH_TOKEN"))
-//    }
+    signPlugin {
+        certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
+        privateKey.set(System.getenv("PRIVATE_KEY"))
+        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+    }
+
+    publishPlugin {
+        token.set(System.getenv("PUBLISH_TOKEN"))
+    }
 
     withType<Jar> {
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
@@ -81,7 +78,7 @@ tasks {
         mustRunAfter("DeletePluginFiles")
         println("Moving Build Artifacts!")
         from(layout.buildDirectory.dir("distributions"))
-        include("JsonMaster-**.zip")
+        include("Json Master-$version.zip")
         into("plugins")
     }
 
