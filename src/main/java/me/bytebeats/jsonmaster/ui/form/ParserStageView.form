@@ -52,7 +52,7 @@
               </component>
             </children>
           </scrollpane>
-          <grid id="dd697" binding="stage_xml_panel" layout-manager="CardLayout" hgap="0" vgap="0">
+          <grid id="dd697" binding="stage_xml_panel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
               <card name="XML"/>
             </constraints>
@@ -62,7 +62,7 @@
             <border type="empty"/>
             <children/>
           </grid>
-          <grid id="9b93d" binding="stage_csv_panel" layout-manager="CardLayout" hgap="0" vgap="0">
+          <grid id="9b93d" binding="stage_csv_panel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
               <card name="CSV"/>
             </constraints>
@@ -72,7 +72,7 @@
             <border type="none"/>
             <children/>
           </grid>
-          <grid id="a1805" binding="stage_yaml_panel" layout-manager="CardLayout" hgap="0" vgap="0">
+          <grid id="a1805" binding="stage_yaml_panel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
               <card name="YAML"/>
             </constraints>
@@ -82,12 +82,22 @@
             <border type="empty"/>
             <children/>
           </grid>
-          <grid id="8ae92" binding="stage_properties_panel" layout-manager="CardLayout" hgap="0" vgap="0">
+          <grid id="8ae92" binding="stage_properties_panel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints>
               <card name="Properties"/>
             </constraints>
             <properties>
               <toolTipText value="Properties"/>
+            </properties>
+            <border type="empty"/>
+            <children/>
+          </grid>
+          <grid id="91d64" binding="stage_toml_panel" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <card name="TOML"/>
+            </constraints>
+            <properties>
+              <toolTipText value="TOML"/>
             </properties>
             <border type="empty"/>
             <children/>

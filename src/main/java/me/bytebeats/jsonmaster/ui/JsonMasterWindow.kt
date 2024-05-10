@@ -15,7 +15,7 @@ import com.intellij.openapi.wm.ex.ToolWindowManagerEx
 import com.intellij.openapi.wm.ex.ToolWindowManagerListener
 import com.intellij.ui.content.Content
 import com.intellij.ui.content.ContentFactory
-import me.bytebeats.jsonmaster.log.LogUtil
+import me.bytebeats.jsonmaster.util.LogUtil
 import me.bytebeats.jsonmaster.ui.action.AddTabAction
 import me.bytebeats.jsonmaster.ui.action.CloseTabAction
 import me.bytebeats.jsonmaster.ui.action.NewParserDialogAction
@@ -75,6 +75,7 @@ class JsonMasterWindow(private val project: Project) {
         group.add(NewParserDialogAction(tabView))
 
         val toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLBAR, group, false)
+        toolbar.targetComponent = tabView as TabView
         toolbar.setOrientation(SwingConstants.VERTICAL)
         return toolbar
     }

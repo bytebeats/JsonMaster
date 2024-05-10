@@ -5,7 +5,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.ui.tabs.TabInfo
 import com.intellij.ui.tabs.TabsListener
 import com.intellij.ui.tabs.impl.JBEditorTabs
-import me.bytebeats.jsonmaster.log.LogUtil
+import me.bytebeats.jsonmaster.util.LogUtil
 import javax.swing.JComponent
 
 /**

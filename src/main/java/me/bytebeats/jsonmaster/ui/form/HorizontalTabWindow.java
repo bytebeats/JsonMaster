@@ -7,8 +7,6 @@ import com.intellij.openapi.editor.EditorSettings;
 import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.event.DocumentListener;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiFile;
 import me.bytebeats.jsonmaster.intf.ComponentProvider;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,25 +42,19 @@ public class HorizontalTabWindow implements ComponentProvider {
         this.v_tab_parsed_panel.add(mParserStageView.getContainer(), BorderLayout.CENTER);
         this.v_tab_parse_btn.addActionListener(e -> parse());
         this.mInputEditor.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void beforeDocumentChange(@NotNull DocumentEvent event) {
-
-            }
 
             @Override
             public void documentChanged(@NotNull DocumentEvent event) {
-                // TODO: 2020/10/14 parse when raw json changed
+                if (event.isWholeTextReplaced()) {
+                    parse();
+                }
             }
         });
     }
 
-    private Editor createEditor() {//todo: persist raw json text
+    private Editor createEditor() {
         EditorFactory factory = EditorFactory.getInstance();
-        PsiFile file = null;
-
-        Document document = file == null
-                ? factory.createDocument("")
-                : PsiDocumentManager.getInstance(mProject).getDocument(file);
+        Document document = factory.createDocument("");
         Editor editor = factory.createEditor(document, mProject);
         EditorSettings settings = editor.getSettings();
         settings.setVirtualSpace(false);
@@ -89,7 +81,7 @@ public class HorizontalTabWindow implements ComponentProvider {
     }
 
     public void setJson(String json) {
-        if (mInputEditor != null && json != null && !"".equals(json)) {
+        if (mInputEditor != null && json != null && !json.isEmpty()) {
             mInputEditor.getDocument().setText(json);
         }
     }

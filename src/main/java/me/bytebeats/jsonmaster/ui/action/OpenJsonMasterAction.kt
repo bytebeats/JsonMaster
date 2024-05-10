@@ -1,26 +1,27 @@
 package me.bytebeats.jsonmaster.ui.action
 
 import com.intellij.icons.AllIcons
+import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
-import me.bytebeats.jsonmaster.log.LogUtil
+import me.bytebeats.jsonmaster.util.LogUtil
 import me.bytebeats.jsonmaster.ui.dialog.ParserDialog2
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 
 /**
- * @Author bytebeats
- * @Email <happychinapc@gmail.com>
- * @Github https://github.com/bytebeats
- * @Created on 2020/10/16 15:57
- * @Version 1.0
- * @Description OpenJsonMasterAction is Action to popup Json Master Plugin
+ * @author bytebeats
+ * @email <happychinapc@gmail.com>
+ * @github https://github.com/bytebeats
+ * @created on 2020/10/16 15:57
+ * @version 1.0
+ * @description OpenJsonMasterAction is Action to popup Json Master Plugin
  */
 
-class OpenJsonMasterAction : AnAction("Json Master", "Parse in Json Master", AllIcons.Actions.Edit) {
+class OpenJsonMasterAction : AnAction("Json Master", "Parse in json master", AllIcons.Actions.Edit) {
     private var lastActionPerformedTime = 0L
-    private var count = 0//count of parser window
+    private var count = 0 // count of parser window
     override fun actionPerformed(event: AnActionEvent) {
         if (isFastClick()) {
             return
@@ -56,6 +57,10 @@ class OpenJsonMasterAction : AnAction("Json Master", "Parse in Json Master", All
         }
         lastActionPerformedTime = nowInMillis
         return false
+    }
+
+    override fun getActionUpdateThread(): ActionUpdateThread {
+        return ActionUpdateThread.EDT
     }
 
     companion object {

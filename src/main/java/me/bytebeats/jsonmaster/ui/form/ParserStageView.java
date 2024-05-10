@@ -33,8 +33,6 @@ import com.intellij.openapi.editor.highlighter.EditorHighlighter;
 import com.intellij.openapi.fileTypes.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.SimpleToolWindowPanel;
-import com.intellij.psi.PsiDocumentManager;
-import com.intellij.psi.PsiFile;
 import com.intellij.psi.tree.IElementType;
 import me.bytebeats.jsonmaster.intf.ComponentProvider;
 import me.bytebeats.jsonmaster.meta.LineData;
@@ -172,29 +170,27 @@ public class ParserStageView implements ComponentProvider {
                             } else if (Constants.PROPERTIES.equals(actionCommand)) {
                                 EditorSettings settings = propertiesEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
-                            }else if (Constants.TOML.equals(actionCommand)) {
+                            } else if (Constants.TOML.equals(actionCommand)) {
                                 EditorSettings settings = tomlEditor.getSettings();
                                 settings.setUseSoftWraps(!settings.isUseSoftWraps());
                             }
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        NotificationsKt.notifyInformation(e.getMessage());
                     }
                 });
             }
         };
         ActionGroup group = new DefaultActionGroup(actions);
         ActionToolbar toolbar = ActionManager.getInstance().createActionToolbar(ActionPlaces.TOOLBAR, group, true);
+        toolbar.setTargetComponent(stage_tool_bar);
         stage_tool_bar.setToolbar(toolbar.getComponent());
         stage_tool_bar.setContent(new JPanel(new BorderLayout()));
     }
 
     private Editor createEditor() {
         EditorFactory factory = EditorFactory.getInstance();
-        PsiFile file = null;//todo: persist raw json text
-        Document document = file == null
-                ? factory.createDocument("")
-                : PsiDocumentManager.getInstance(mProject).getDocument(file);
+        Document document = factory.createDocument("");
         Editor editor = factory.createEditor(document, mProject);
         EditorSettings settings = editor.getSettings();
         settings.setVirtualSpace(false);
@@ -232,20 +228,6 @@ public class ParserStageView implements ComponentProvider {
         }
         return new PlainSyntaxHighlighter();
     }
-
-//    private LanguageFileType getFileType(Header[] contentTypes) {
-//        if (contentTypes != null && contentTypes.length > 0) {
-//            Header contentType = contentTypes[0];
-//            if (contentType.getValue().contains("text/html")) {
-//                return HtmlFileType.INSTANCE;
-//            } else if (contentType.getValue().contains("application/xml")) {
-//                return XmlFileType.INSTANCE;
-//            } else if (contentType.getValue().contains("application/json")) {
-//                return JsonFileType.INSTANCE;
-//            }
-//        }
-//        return JsonFileType.INSTANCE;
-//    }
 
     private LanguageFileType getFileType() {
         return JsonFileType.INSTANCE;
@@ -322,7 +304,7 @@ public class ParserStageView implements ComponentProvider {
             stage_tree.setModel(model);
             expandAllNodes(stage_tree, 0, stage_tree.getRowCount());
         } catch (Exception e) {
-            e.printStackTrace();
+            NotificationsKt.notifyInformation(e.getMessage());
             resetTree();
         }
     }
@@ -340,7 +322,8 @@ public class ParserStageView implements ComponentProvider {
     private void parseXML(String raw) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
+//            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
+            JsonNode jsonNode = objectMapper.readTree((raw));
             //solution 1
             XMLInputFactory2 inputFactory = new WstxInputFactory();
             XMLOutputFactory2 outputFactory = new WstxOutputFactory();
@@ -377,7 +360,8 @@ public class ParserStageView implements ComponentProvider {
     private void parseProperties(String raw) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
+//            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
+            JsonNode jsonNode = objectMapper.readTree((raw));
             YAMLMapper yamlMapper = new YAMLMapper();
             String jsonAsYAML = yamlMapper.writer().withRootName("yaml").withDefaultPrettyPrinter().writeValueAsString(jsonNode);
             WriteCommandAction.runWriteCommandAction(mProject, () -> {
@@ -395,7 +379,8 @@ public class ParserStageView implements ComponentProvider {
     private void parseYAML(String raw) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
+//            JsonNode jsonNode = objectMapper.readTree(getPrettyJson(raw));
+            JsonNode jsonNode = objectMapper.readTree((raw));
             YAMLMapper yamlMapper = new YAMLMapper();
             String jsonAsYAML = yamlMapper.writer().withRootName("yaml").withDefaultPrettyPrinter().writeValueAsString(jsonNode);
             WriteCommandAction.runWriteCommandAction(mProject, () -> {
