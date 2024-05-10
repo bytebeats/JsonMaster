@@ -8,7 +8,6 @@ import com.intellij.openapi.actionSystem.Presentation
 import com.intellij.openapi.actionSystem.ex.CustomComponentAction
 import com.intellij.openapi.util.Key
 import com.intellij.util.ui.UIUtil
-import me.bytebeats.jsonmaster.util.LogUtil
 import java.awt.event.ActionListener
 import javax.swing.ButtonGroup
 import javax.swing.JComponent
@@ -51,7 +50,6 @@ class JMRadioAction @JvmOverloads constructor(
                     dataContext
                 )
             )
-            LogUtil.i("JRadioAction.createCustomComponent")
             actionListener?.actionPerformed(e)
         }
         presentation.putClientProperty(Key(keyName), selected)

@@ -5,7 +5,6 @@ import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.PlatformDataKeys
-import me.bytebeats.jsonmaster.util.LogUtil
 import me.bytebeats.jsonmaster.ui.dialog.ParserDialog2
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
@@ -35,7 +34,6 @@ class OpenJsonMasterAction : AnAction("Json Master", "Parse in json master", All
         val text = model.selectedText
         event.presentation.isEnabled = !text.isNullOrEmpty()
         if (text.isNullOrEmpty()) {
-            LogUtil.i("text is null or empty")
             return
         }
         val parserWindow = ParserDialog2(text, "Json Master $count", count)

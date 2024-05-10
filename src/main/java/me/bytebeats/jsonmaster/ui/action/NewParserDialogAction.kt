@@ -4,7 +4,6 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import me.bytebeats.jsonmaster.util.LogUtil
 import me.bytebeats.jsonmaster.ui.dialog.ParserDialog
 import me.bytebeats.jsonmaster.ui.tab.ITabView
 import me.bytebeats.jsonmaster.util.Constants
@@ -24,7 +23,6 @@ class NewParserDialogAction(private val tabView: ITabView) :
         AnAction(Constants.PARSE_IN_DIALOG, Constants.PARSE_IN_DIALOG, AllIcons.Actions.ChangeView) {
     private var count = 0 // count of parser window
     override fun actionPerformed(event: AnActionEvent) {
-        LogUtil.i("NewParserDialogAction:actionPerformed")
         val parserWindow = ParserDialog(tabView, "Json Master $count", count)
         count += 1
         parserWindow.windowAdapter = object : WindowAdapter() {

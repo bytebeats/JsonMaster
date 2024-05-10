@@ -4,7 +4,6 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
-import me.bytebeats.jsonmaster.util.LogUtil
 import me.bytebeats.jsonmaster.ui.tab.ITabView
 import me.bytebeats.jsonmaster.util.Constants
 
@@ -21,7 +20,6 @@ class CloseTabAction(private val tabView: ITabView) :
         AnAction(Constants.CLOSE_TAB, Constants.CLOSE_TAB_DESC, AllIcons.General.Remove) {
     override fun actionPerformed(event: AnActionEvent) {
         tabView.closeCurrentTabSession()
-        LogUtil.i("CloseTabAction:actionPerformed")
     }
 
     override fun update(e: AnActionEvent) {
