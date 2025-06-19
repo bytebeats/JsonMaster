@@ -27,7 +27,7 @@ class TabLayout(private val project: Project, private val parent: Disposable) : 
     }
 
     override fun addTab(component: JComponent, title: String): ITabLayout {
-        val tab = TabInfo(component).apply { text = title }
+        val tab = TabInfo(component).apply { setText(title) }
         mTabs.addTab(tab)
         mTabs.select(tab, true)
         return this

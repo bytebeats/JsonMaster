@@ -1,6 +1,6 @@
 [versions]
-jackson-core = "2.17.0"
-jackson-dataformat = "2.17.0"
+jackson-core = "2.19.0"
+jackson-dataformat = "2.19.0"
 
 
 [libraries]

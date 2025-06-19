@@ -1,14 +1,14 @@
 plugins {
     id("java")
-    id("org.jetbrains.kotlin.jvm") version "1.9.22"
-    id("org.jetbrains.intellij") version "1.17.2"
+    id("org.jetbrains.kotlin.jvm") version "2.1.0"
+    id("org.jetbrains.intellij.platform") version "2.5.0"
 }
 
 apply(plugin = "kotlin")
-apply(plugin = "org.jetbrains.intellij")
+apply(plugin = "org.jetbrains.intellij.platform")
 
 group = "io.github.bytebeats"
-version = "1.3.0"
+version = "1.4.0"
 
 repositories {
     maven {
@@ -21,41 +21,58 @@ repositories {
         url = uri("https://maven.aliyun.com/repository/jcenter")
     }
     mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
 dependencies {
     api(libs.bundles.jacksonCore)
     api(libs.bundles.jacksonDataFormat)
     implementation("com.fasterxml.woodstox:woodstox-core:6.4.0")
+    intellijPlatform {
+        create("IC", "2024.2")
+        testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
+
+        // Add necessary plugin dependencies for compilation here, example:
+        // bundledPlugin("com.intellij.java")
+    }
 }
 
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
-intellij {
-    pluginName.set("Json Master")
-    version.set("2023.2.5")
-    type.set("IC") // Target IDE Platform
+intellijPlatform {
+    pluginConfiguration {
+        name = "Json Master"
+        ideaVersion {
+            sinceBuild = "242"
+        }
 
-    plugins.set(listOf(/* Plugin Dependencies */))
+        changeNotes = """
+      v1.3.0 project upgrade and support xml/yaml/csv/properties.<br>
+      v1.4.0 regular upgrade to Java 21 and Idea 2025.<br>
+    """.trimIndent()
+    }
 }
 
 tasks {
     // Set the JVM compatibility versions
     withType<JavaCompile> {
-        sourceCompatibility = "17"
-        targetCompatibility = "17"
+        sourceCompatibility = "21"
+        targetCompatibility = "21"
     }
     withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
+        kotlinOptions.jvmTarget = "21"
     }
 
     patchPluginXml {
-        sinceBuild.set("232")
-        untilBuild.set("242.*")
+        sinceBuild.set("242")
+//        untilBuild.set("242.*")
 
         changeNotes.set(
             """
       v1.3.0 project upgrade and support xml/yaml/csv/properties.<br>
+      v1.4.0 regular upgrade to Java 21 and Idea 2025.<br>
       """
         )
     }
