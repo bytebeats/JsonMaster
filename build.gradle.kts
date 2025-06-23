@@ -1,4 +1,5 @@
 plugins {
+    application
     id("java")
     id("org.jetbrains.kotlin.jvm") version "2.1.0"
     id("org.jetbrains.intellij.platform") version "2.5.0"
@@ -39,6 +40,10 @@ dependencies {
     }
 }
 
+application {
+    mainClass = "me.bytebeats.jsonmaster.ui.JsonMasterWindow"
+}
+
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellijPlatform {
@@ -46,6 +51,7 @@ intellijPlatform {
         name = "Json Master"
         ideaVersion {
             sinceBuild = "242"
+            untilBuild = "251.*"
         }
 
         changeNotes = """
@@ -65,18 +71,6 @@ tasks {
         kotlinOptions.jvmTarget = "21"
     }
 
-    patchPluginXml {
-        sinceBuild.set("242")
-//        untilBuild.set("242.*")
-
-        changeNotes.set(
-            """
-      v1.3.0 project upgrade and support xml/yaml/csv/properties.<br>
-      v1.4.0 regular upgrade to Java 21 and Idea 2025.<br>
-      """
-        )
-    }
-
     signPlugin {
         certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
         privateKey.set(System.getenv("PRIVATE_KEY"))
@@ -92,6 +86,7 @@ tasks {
     }
 
     register<Copy>("MoveBuildArtifacts") {
+        dependsOn(named("distZip"))
         mustRunAfter("DeletePluginFiles")
         println("Moving Build Artifacts!")
         from(layout.buildDirectory.dir("distributions"))

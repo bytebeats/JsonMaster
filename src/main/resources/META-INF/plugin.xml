@@ -3,7 +3,7 @@
     <name>Json Master</name>
     <vendor email="happychinapc@gmail.com" url="https://github.com/bytebeats">bytebeats</vendor>
     <version>1.4.0</version>
-    <idea-version since-build="242" />
+    <idea-version since-build="242" until-build="251.*" />
 
     <description><![CDATA[
     Weary of converting JSON into Xml/CVS/Yaml/Toml/Properties in a browser?<br>
@@ -13,14 +13,6 @@
     Json Master is a lightweight plugin for validating JSON and formatting JSON in Xml/CVS/Yaml/Toml/Properties style and generating a Java/Kotlin/Dart Class from a JSON strings.<br>
     Try to install it and spread the word :)<br>
     ]]></description>
-
-    <change-notes><![CDATA[
-      v1.0.0 release Json Master with features:<br> * tab window management; * dialog management; * multi style support for parsing json.<br>
-      v1.1.0 convert raw style into compact style.<br>
-      v1.1.1 open selected json from EditMenu, EditPopupMenu and ConsolePopupMenu.<br>
-      v1.2.0 supported xml/yaml/csv/properties.<br>
-      v1.3.0 project upgrade and support xml/yaml/csv/properties.<br>
-    ]]></change-notes>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
